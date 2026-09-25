@@ -1,0 +1,109 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "524670f2f0e5b02ecf4b",
+  "position": {
+    "x": 10,
+    "y": 180,
+    "z": 10,
+    "height": 265,
+    "width": 400,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "lineClusteredColumnComboChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Reclamos"
+                    }
+                  },
+                  "Property": "OrigenRegistro"
+                }
+              },
+              "queryRef": "Reclamos.OrigenRegistro",
+              "nativeQueryRef": "OrigenRegistro"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Días Resolución Promedio"
+                }
+              },
+              "queryRef": "_Medidas.Días Resolución Promedio",
+              "nativeQueryRef": "Días Resolución Promedio"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Registro Completo %"
+                }
+              },
+              "queryRef": "_Medidas.Registro Completo %",
+              "nativeQueryRef": "Registro Completo %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Impacto del formulario estandarizado'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

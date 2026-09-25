@@ -1,0 +1,40 @@
+table LineasProduccion
+	lineageTag: 6cbd78d3-da43-5ba8-8ef7-98028fab43ed
+
+	column LineaID
+		dataType: string
+		lineageTag: 74a30014-23aa-5717-8187-f0e9e9b43a2a
+		summarizeBy: none
+		sourceColumn: LineaID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Linea
+		dataType: string
+		lineageTag: 3137600d-fca7-5a74-87f4-1bf3a427810b
+		summarizeBy: none
+		sourceColumn: Linea
+
+		annotation SummarizationSetBy = Automatic
+
+	column DotacionBase
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: c033f9cc-eea4-5a47-9bda-2ca826bd3f53
+		summarizeBy: sum
+		sourceColumn: DotacionBase
+
+		annotation SummarizationSetBy = Automatic
+
+	partition LineasProduccion = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "00_Maestros.xlsx"), null, true),
+				    Datos = Origen{[Item="tLineasProduccion",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"DotacionBase"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"LineaID", type text}, {"Linea", type text}, {"DotacionBase", Int64.Type}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,4 @@
+expression RutaDatos = "D:\GitHub\AnalisisDeDatos\datos_ejemplo_MagicFoods\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 373f59d3-12c2-5051-98d3-921c6a54bece
+
+	annotation PBI_ResultType = Text

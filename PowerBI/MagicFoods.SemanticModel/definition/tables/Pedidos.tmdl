@@ -1,0 +1,124 @@
+table Pedidos
+	lineageTag: 23ff886e-182f-56fe-907d-e643d66fe229
+
+	column PedidoID
+		dataType: string
+		lineageTag: 0dd9af79-ce50-56e6-b729-76eaf98783c6
+		summarizeBy: none
+		sourceColumn: PedidoID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaPedido
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: ad4a56d7-ac21-5ac3-b545-421095503556
+		summarizeBy: none
+		sourceColumn: FechaPedido
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClienteID
+		dataType: string
+		lineageTag: 4fc1ffcf-1795-54ab-acf9-d1d6462ac805
+		summarizeBy: none
+		sourceColumn: ClienteID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cliente
+		dataType: string
+		lineageTag: 15ac87e9-3ca3-5700-92c0-774170448b2e
+		summarizeBy: none
+		sourceColumn: Cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendedorID
+		dataType: string
+		lineageTag: 709fcc30-f892-550a-9ac1-5fddbe6ce336
+		summarizeBy: none
+		sourceColumn: VendedorID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		lineageTag: 13ef8b97-492d-5182-a061-f541d1f3932d
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaComprometida
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 7dcde7b5-cbfe-593c-814c-c0fbe29ea808
+		summarizeBy: none
+		sourceColumn: FechaComprometida
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaEntrega
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 16d6e60a-52b3-50c5-9f19-d5994cab257c
+		summarizeBy: none
+		sourceColumn: FechaEntrega
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estado
+		dataType: string
+		lineageTag: cc6275f9-a5ca-5148-8d8c-0cc268042947
+		summarizeBy: none
+		sourceColumn: Estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column NroFactura
+		dataType: string
+		lineageTag: c9b752de-7ab3-5885-b3fc-da201674e891
+		summarizeBy: none
+		sourceColumn: NroFactura
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaFactura
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 6d4cd011-4279-54c8-bcb7-1aecc9cbbf3c
+		summarizeBy: none
+		sourceColumn: FechaFactura
+
+		annotation SummarizationSetBy = Automatic
+
+	column MontoNeto
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 28b00bd9-029d-56f0-af49-00daad77befb
+		summarizeBy: sum
+		sourceColumn: MontoNeto
+
+		annotation SummarizationSetBy = Automatic
+
+	column EntregaATiempo
+		dataType: string
+		lineageTag: 3ccaf38a-f3a2-58a1-9586-920497df5e37
+		summarizeBy: none
+		sourceColumn: EntregaATiempo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Pedidos = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "01_Comercial.xlsx"), null, true),
+				    Datos = Origen{[Item="tPedidos",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"FechaPedido", "FechaComprometida", "FechaEntrega", "FechaFactura", "MontoNeto"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"PedidoID", type text}, {"FechaPedido", type date}, {"ClienteID", type text}, {"Cliente", type text}, {"VendedorID", type text}, {"Canal", type text}, {"FechaComprometida", type date}, {"FechaEntrega", type date}, {"Estado", type text}, {"NroFactura", type text}, {"FechaFactura", type date}, {"MontoNeto", Int64.Type}, {"EntregaATiempo", type text}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

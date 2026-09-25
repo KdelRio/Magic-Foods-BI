@@ -1,0 +1,213 @@
+table Indicadores
+	lineageTag: 7f44f570-f0b3-5ccd-bf02-bc4c458757b7
+
+	column Periodo
+		dataType: string
+		lineageTag: 34b6f613-b83e-50b4-8b2d-f276d5502993
+		summarizeBy: none
+		sourceColumn: Periodo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anio
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f511a26-b1d6-537d-b834-2e67c9ff876e
+		summarizeBy: none
+		sourceColumn: Anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: int64
+		formatString: 0
+		lineageTag: 60d28b4f-7cf3-547a-a5ac-606dafc9122e
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column MargenBruto
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 6ac8ff7c-adeb-5c0a-bbe6-3ae4fe44db0a
+		summarizeBy: sum
+		sourceColumn: MargenBruto
+
+		annotation SummarizationSetBy = Automatic
+
+	column MargenEBITDA
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 837f3aa2-ebcb-5cec-bcea-1b29cc313f20
+		summarizeBy: sum
+		sourceColumn: MargenEBITDA
+
+		annotation SummarizationSetBy = Automatic
+
+	column MargenNeto
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 2f987340-50d4-5fc9-b58d-0af0bf2a5500
+		summarizeBy: sum
+		sourceColumn: MargenNeto
+
+		annotation SummarizationSetBy = Automatic
+
+	column EBITDA
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: cb01743c-154a-5f3a-80f6-0751c0e557fc
+		summarizeBy: sum
+		sourceColumn: EBITDA
+
+		annotation SummarizationSetBy = Automatic
+
+	column ROI
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 8e1a2471-cf63-5b0f-8885-dbd74e165f44
+		summarizeBy: sum
+		sourceColumn: ROI
+
+		annotation SummarizationSetBy = Automatic
+
+	column ROE
+		dataType: double
+		formatString: #,0.##
+		lineageTag: f6d00f75-a3a3-5605-9e48-5bfc83859bd0
+		summarizeBy: sum
+		sourceColumn: ROE
+
+		annotation SummarizationSetBy = Automatic
+
+	column ROA
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 212517b3-149d-51f6-8e0f-ed3689150f1e
+		summarizeBy: sum
+		sourceColumn: ROA
+
+		annotation SummarizationSetBy = Automatic
+
+	column ROCE
+		dataType: double
+		formatString: #,0.##
+		lineageTag: c7402282-2900-5807-a127-57b06e222f67
+		summarizeBy: sum
+		sourceColumn: ROCE
+
+		annotation SummarizationSetBy = Automatic
+
+	column CapitalCirculante
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 4a9eb5a8-1718-5e11-9a90-35bde7905482
+		summarizeBy: sum
+		sourceColumn: CapitalCirculante
+
+		annotation SummarizationSetBy = Automatic
+
+	column RazonCorriente
+		dataType: double
+		formatString: #,0.##
+		lineageTag: d35dc872-7f35-5e36-a360-bbfc2bddc808
+		summarizeBy: sum
+		sourceColumn: RazonCorriente
+
+		annotation SummarizationSetBy = Automatic
+
+	column TestAcido
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 0a2a7fcf-d371-513d-8154-bc0fa10be216
+		summarizeBy: sum
+		sourceColumn: TestAcido
+
+		annotation SummarizationSetBy = Automatic
+
+	column VolumenCxP
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 3ac8a742-594a-5b4a-92d3-524dfcdb43a5
+		summarizeBy: sum
+		sourceColumn: VolumenCxP
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiasCobro_DSO
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 5690efd0-b4c1-5f42-a919-4f1a9dd0ca46
+		summarizeBy: sum
+		sourceColumn: DiasCobro_DSO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiasPago_DPO
+		dataType: double
+		formatString: #,0.##
+		lineageTag: c9ed42a3-af39-522e-a396-8330edc65365
+		summarizeBy: sum
+		sourceColumn: DiasPago_DPO
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiasInventario
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 7dcae84e-c419-5d69-a99d-54979812b93c
+		summarizeBy: sum
+		sourceColumn: DiasInventario
+
+		annotation SummarizationSetBy = Automatic
+
+	column FlujoOperativo
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 97fdacc0-be2e-50ad-88c6-3d68aea800a2
+		summarizeBy: sum
+		sourceColumn: FlujoOperativo
+
+		annotation SummarizationSetBy = Automatic
+
+	column FlujoLibre
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 319d5843-bd9f-514e-9c4a-f0228b084dc9
+		summarizeBy: sum
+		sourceColumn: FlujoLibre
+
+		annotation SummarizationSetBy = Automatic
+
+	column FlujoNeto
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 4a26a341-2e02-55e2-8bba-a26e7074ba66
+		summarizeBy: sum
+		sourceColumn: FlujoNeto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fecha
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: f74833e3-939c-5f9e-ac94-ae46c5643a10
+		summarizeBy: none
+		sourceColumn: Fecha
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Indicadores = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "02_Finanzas.xlsx"), null, true),
+				    Datos = Origen{[Item="tIndicadores",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"Anio", "Mes", "MargenBruto", "MargenEBITDA", "MargenNeto", "EBITDA", "ROI", "ROE", "ROA", "ROCE", "CapitalCirculante", "RazonCorriente", "TestAcido", "VolumenCxP", "DiasCobro_DSO", "DiasPago_DPO", "DiasInventario", "FlujoOperativo", "FlujoLibre", "FlujoNeto"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"Periodo", type text}, {"Anio", Int64.Type}, {"Mes", Int64.Type}, {"MargenBruto", type number}, {"MargenEBITDA", type number}, {"MargenNeto", type number}, {"EBITDA", Int64.Type}, {"ROI", type number}, {"ROE", type number}, {"ROA", type number}, {"ROCE", type number}, {"CapitalCirculante", Int64.Type}, {"RazonCorriente", type number}, {"TestAcido", type number}, {"VolumenCxP", Int64.Type}, {"DiasCobro_DSO", type number}, {"DiasPago_DPO", type number}, {"DiasInventario", type number}, {"FlujoOperativo", Int64.Type}, {"FlujoLibre", Int64.Type}, {"FlujoNeto", Int64.Type}}),
+				    ConFecha = Table.AddColumn(Tipos, "Fecha", each #date([Anio], [Mes], 1), type date)
+				in
+				    ConFecha
+
+	annotation PBI_ResultType = Table

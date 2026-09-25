@@ -1,0 +1,129 @@
+table ProduccionLinea
+	lineageTag: a83b7f30-ae9c-5919-81cf-ba053e441b28
+
+	column Fecha
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 61321bc4-ca93-5d2c-93cd-8d40e3b98527
+		summarizeBy: none
+		sourceColumn: Fecha
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anio
+		dataType: int64
+		formatString: 0
+		lineageTag: 69b34948-d824-5a4a-ad2b-1db18d05346d
+		summarizeBy: none
+		sourceColumn: Anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c36fd60-7aa8-5fb5-b3f2-b6a38d665be0
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column LineaID
+		dataType: string
+		lineageTag: 9358e5d4-3f73-5f53-b59c-301d513d03f2
+		summarizeBy: none
+		sourceColumn: LineaID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Linea
+		dataType: string
+		lineageTag: 5c2cc89f-b328-51bd-9ad5-c72cf8d62640
+		summarizeBy: none
+		sourceColumn: Linea
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dotacion
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 327114f4-0936-53e4-9d95-0d572556e866
+		summarizeBy: sum
+		sourceColumn: Dotacion
+
+		annotation SummarizationSetBy = Automatic
+
+	column HorasHombre
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 2675266b-04df-5671-8e30-ba0acb061e24
+		summarizeBy: sum
+		sourceColumn: HorasHombre
+
+		annotation SummarizationSetBy = Automatic
+
+	column HorasExtra
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 1db2bab4-245b-53ad-8023-b71b3534eac9
+		summarizeBy: sum
+		sourceColumn: HorasExtra
+
+		annotation SummarizationSetBy = Automatic
+
+	column HorasDetencion
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 11b0ced3-80cc-5c9d-a330-01128bf814e8
+		summarizeBy: sum
+		sourceColumn: HorasDetencion
+
+		annotation SummarizationSetBy = Automatic
+
+	column CausaDetencion
+		dataType: string
+		lineageTag: b46e8b6f-ecc2-5a92-b156-196433e08419
+		summarizeBy: none
+		sourceColumn: CausaDetencion
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnidadesProducidas
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 5ce10bab-7a30-50fd-a166-97fc6889a71c
+		summarizeBy: sum
+		sourceColumn: UnidadesProducidas
+
+		annotation SummarizationSetBy = Automatic
+
+	column KgProducidos
+		dataType: double
+		formatString: #,0.##
+		lineageTag: e80df7f9-37d6-5ce0-b240-87a7b881f2bd
+		summarizeBy: sum
+		sourceColumn: KgProducidos
+
+		annotation SummarizationSetBy = Automatic
+
+	column KgMateriaPrima
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 4456d204-e066-5c6c-9cbf-12af38d709ef
+		summarizeBy: sum
+		sourceColumn: KgMateriaPrima
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ProduccionLinea = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "04_Produccion.xlsx"), null, true),
+				    Datos = Origen{[Item="tProduccionLinea",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"Fecha", "Anio", "Mes", "Dotacion", "HorasHombre", "HorasExtra", "HorasDetencion", "UnidadesProducidas", "KgProducidos", "KgMateriaPrima"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"Fecha", type date}, {"Anio", Int64.Type}, {"Mes", Int64.Type}, {"LineaID", type text}, {"Linea", type text}, {"Dotacion", Int64.Type}, {"HorasHombre", type number}, {"HorasExtra", type number}, {"HorasDetencion", type number}, {"CausaDetencion", type text}, {"UnidadesProducidas", Int64.Type}, {"KgProducidos", type number}, {"KgMateriaPrima", type number}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

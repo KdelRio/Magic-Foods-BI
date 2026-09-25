@@ -1,0 +1,77 @@
+table Calendario
+	lineageTag: 1525f881-a0e3-59bf-8507-c0c957d680e3
+
+	dataCategory: Time
+
+	column Fecha
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 266619c5-8082-5790-acdb-25c4a9c348e1
+		summarizeBy: none
+		sourceColumn: Fecha
+		isKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anio
+		dataType: int64
+		formatString: 0
+		lineageTag: 3afaed88-f17d-59a1-a18e-6e5ec8d44ba4
+		summarizeBy: none
+		sourceColumn: Anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column MesNum
+		dataType: int64
+		formatString: 0
+		isHidden
+		lineageTag: b1494fa6-278e-5a35-a52b-14c1048cd469
+		summarizeBy: none
+		sourceColumn: MesNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: string
+		lineageTag: 16aefcbf-92b7-5d3e-a75e-6168324c2cf2
+		summarizeBy: none
+		sourceColumn: Mes
+		sortByColumn: MesNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnioMes
+		dataType: string
+		lineageTag: 6912931b-27e2-5520-b30c-dac2acc81b92
+		summarizeBy: none
+		sourceColumn: AnioMes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Trimestre
+		dataType: string
+		lineageTag: e040e69f-13bd-57d2-9377-2122fb2f2aa0
+		summarizeBy: none
+		sourceColumn: Trimestre
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendario = m
+		mode: import
+		source =
+				let
+				    Inicio = #date(2022, 10, 1),
+				    Fin = #date(2024, 12, 31),
+				    Fechas = List.Dates(Inicio, Duration.Days(Fin - Inicio) + 1, #duration(1, 0, 0, 0)),
+				    Tabla = Table.FromList(Fechas, Splitter.SplitByNothing(), {"Fecha"}),
+				    Tipo = Table.TransformColumnTypes(Tabla, {{"Fecha", type date}}),
+				    Anio = Table.AddColumn(Tipo, "Anio", each Date.Year([Fecha]), Int64.Type),
+				    MesNum = Table.AddColumn(Anio, "MesNum", each Date.Month([Fecha]), Int64.Type),
+				    Mes = Table.AddColumn(MesNum, "Mes", each {"Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"}{Date.Month([Fecha]) - 1}, type text),
+				    AnioMes = Table.AddColumn(Mes, "AnioMes", each Date.ToText([Fecha], "yyyy-MM"), type text),
+				    Trimestre = Table.AddColumn(AnioMes, "Trimestre", each "T" & Text.From(Date.QuarterOfYear([Fecha])), type text)
+				in
+				    Trimestre
+
+	annotation PBI_ResultType = Table

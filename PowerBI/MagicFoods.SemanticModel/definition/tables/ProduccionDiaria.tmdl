@@ -1,0 +1,128 @@
+table ProduccionDiaria
+	lineageTag: bfb8aad6-20f7-52e5-818d-06dd612bfdc6
+
+	column Fecha
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 31f14c74-bcb1-50a6-b27c-f833111bc737
+		summarizeBy: none
+		sourceColumn: Fecha
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anio
+		dataType: int64
+		formatString: 0
+		lineageTag: 3f1d4a06-6e5f-5d52-a476-408c731014a5
+		summarizeBy: none
+		sourceColumn: Anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: int64
+		formatString: 0
+		lineageTag: d618f545-b137-5391-93ff-a792e4a6f8c1
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column LineaID
+		dataType: string
+		lineageTag: a43fac98-0d86-5ef0-8b4c-64cb88c23441
+		summarizeBy: none
+		sourceColumn: LineaID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SKU
+		dataType: string
+		lineageTag: 3ba459eb-854a-5e3d-8925-6cdda0be8562
+		summarizeBy: none
+		sourceColumn: SKU
+
+		annotation SummarizationSetBy = Automatic
+
+	column Producto
+		dataType: string
+		lineageTag: b7bff998-cff5-5aa9-b4cc-a4e9943d226e
+		summarizeBy: none
+		sourceColumn: Producto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Familia
+		dataType: string
+		lineageTag: 7145ac1d-3060-568d-94c8-ac8d372b1b15
+		summarizeBy: none
+		sourceColumn: Familia
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnidadesPlanificadas
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: cbb82485-47dd-58cd-9a48-0d94b10a2122
+		summarizeBy: sum
+		sourceColumn: UnidadesPlanificadas
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnidadesProducidas
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 1f88c9d2-da09-575e-92fa-fb2a30f3eceb
+		summarizeBy: sum
+		sourceColumn: UnidadesProducidas
+
+		annotation SummarizationSetBy = Automatic
+
+	column KgMateriaPrima
+		dataType: double
+		formatString: #,0.##
+		lineageTag: e3ad1ae4-97fa-59b6-969a-3d9a268e6c6b
+		summarizeBy: sum
+		sourceColumn: KgMateriaPrima
+
+		annotation SummarizationSetBy = Automatic
+
+	column KgProducidos
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 89011db2-067c-5644-904c-7f67d840c437
+		summarizeBy: sum
+		sourceColumn: KgProducidos
+
+		annotation SummarizationSetBy = Automatic
+
+	column KgMerma
+		dataType: double
+		formatString: #,0.##
+		lineageTag: e3a07e5a-fa47-5875-8608-4c132889f527
+		summarizeBy: sum
+		sourceColumn: KgMerma
+
+		annotation SummarizationSetBy = Automatic
+
+	column KgSubproducto
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 5c603cea-52c4-54a4-9d70-9845a6a11ebf
+		summarizeBy: sum
+		sourceColumn: KgSubproducto
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ProduccionDiaria = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "04_Produccion.xlsx"), null, true),
+				    Datos = Origen{[Item="tProduccionDiaria",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"Fecha", "Anio", "Mes", "UnidadesPlanificadas", "UnidadesProducidas", "KgMateriaPrima", "KgProducidos", "KgMerma", "KgSubproducto"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"Fecha", type date}, {"Anio", Int64.Type}, {"Mes", Int64.Type}, {"LineaID", type text}, {"SKU", type text}, {"Producto", type text}, {"Familia", type text}, {"UnidadesPlanificadas", Int64.Type}, {"UnidadesProducidas", Int64.Type}, {"KgMateriaPrima", type number}, {"KgProducidos", type number}, {"KgMerma", type number}, {"KgSubproducto", type number}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

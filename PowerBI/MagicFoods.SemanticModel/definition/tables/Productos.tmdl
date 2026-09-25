@@ -1,0 +1,83 @@
+table Productos
+	lineageTag: 09f7047e-5ae3-5d6e-9c78-b1f1e80f96df
+
+	column SKU
+		dataType: string
+		lineageTag: fabc1db7-f57a-52a0-b10a-54672da99ffd
+		summarizeBy: none
+		sourceColumn: SKU
+
+		annotation SummarizationSetBy = Automatic
+
+	column Producto
+		dataType: string
+		lineageTag: ae55d76d-94ae-5140-a943-5307cb621752
+		summarizeBy: none
+		sourceColumn: Producto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Familia
+		dataType: string
+		lineageTag: d08ac8d6-527a-5ae3-bdcf-d6a201780379
+		summarizeBy: none
+		sourceColumn: Familia
+
+		annotation SummarizationSetBy = Automatic
+
+	column LineaID
+		dataType: string
+		lineageTag: a31e34ae-d787-54b5-84db-e6c32f0565a8
+		summarizeBy: none
+		sourceColumn: LineaID
+
+		annotation SummarizationSetBy = Automatic
+
+	column PesoKg
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 0d6e7ebb-e0df-5a0d-8888-1cf2977d6425
+		summarizeBy: sum
+		sourceColumn: PesoKg
+
+		annotation SummarizationSetBy = Automatic
+
+	column PrecioListaNeto
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 305ec74b-6d18-5030-aba8-7a02dff4de2b
+		summarizeBy: sum
+		sourceColumn: PrecioListaNeto
+
+		annotation SummarizationSetBy = Automatic
+
+	column CostoUnitario
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 1fba55ae-b91b-5870-bf27-3f3141b7d1e2
+		summarizeBy: sum
+		sourceColumn: CostoUnitario
+
+		annotation SummarizationSetBy = Automatic
+
+	column MargenEstandar
+		dataType: double
+		formatString: #,0.##
+		lineageTag: c3edaeb2-537c-5e9b-9172-f8ffec4a2dd3
+		summarizeBy: sum
+		sourceColumn: MargenEstandar
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Productos = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "00_Maestros.xlsx"), null, true),
+				    Datos = Origen{[Item="tProductos",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"PesoKg", "PrecioListaNeto", "CostoUnitario", "MargenEstandar"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"SKU", type text}, {"Producto", type text}, {"Familia", type text}, {"LineaID", type text}, {"PesoKg", type number}, {"PrecioListaNeto", Int64.Type}, {"CostoUnitario", Int64.Type}, {"MargenEstandar", type number}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

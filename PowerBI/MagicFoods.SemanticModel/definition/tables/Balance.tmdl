@@ -1,0 +1,186 @@
+table Balance
+	lineageTag: 1db6592c-cbed-55e2-985e-8dc1dd509dfc
+
+	column Periodo
+		dataType: string
+		lineageTag: 7ddc2390-2cfc-523d-87a8-da1b1ef18e25
+		summarizeBy: none
+		sourceColumn: Periodo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anio
+		dataType: int64
+		formatString: 0
+		lineageTag: a514f58b-8fab-5ba8-8c14-92f340015f4f
+		summarizeBy: none
+		sourceColumn: Anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: int64
+		formatString: 0
+		lineageTag: a5279167-71aa-545c-8487-f9993ea20292
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Caja
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 2d8b117d-d256-5896-9018-2bc20563e60b
+		summarizeBy: sum
+		sourceColumn: Caja
+
+		annotation SummarizationSetBy = Automatic
+
+	column CuentasPorCobrar
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: c1ac2fbb-18ec-5a00-b021-d9004cccf410
+		summarizeBy: sum
+		sourceColumn: CuentasPorCobrar
+
+		annotation SummarizationSetBy = Automatic
+
+	column Inventario
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: fb02cb1f-d6eb-5544-b701-c503d27b4f7b
+		summarizeBy: sum
+		sourceColumn: Inventario
+
+		annotation SummarizationSetBy = Automatic
+
+	column OtrosActivosCorrientes
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 070cffdc-790e-52bd-b95c-c70a993ea228
+		summarizeBy: sum
+		sourceColumn: OtrosActivosCorrientes
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActivoCorriente
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: ee124168-4772-500e-ab4c-1e117dc2fb82
+		summarizeBy: sum
+		sourceColumn: ActivoCorriente
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActivoFijoNeto
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 67d68207-1d77-566a-8a00-044d6c6a443c
+		summarizeBy: sum
+		sourceColumn: ActivoFijoNeto
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActivoTotal
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: a14c7368-1491-534e-9ebb-208a4a4bb5dc
+		summarizeBy: sum
+		sourceColumn: ActivoTotal
+
+		annotation SummarizationSetBy = Automatic
+
+	column CuentasPorPagar
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: d2da503e-cf77-5f6c-93c6-6f0d11778eed
+		summarizeBy: sum
+		sourceColumn: CuentasPorPagar
+
+		annotation SummarizationSetBy = Automatic
+
+	column OtrosPasivosCorrientes
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 09c59448-6dcb-50e7-a04e-33115d03db7c
+		summarizeBy: sum
+		sourceColumn: OtrosPasivosCorrientes
+
+		annotation SummarizationSetBy = Automatic
+
+	column PasivoCorriente
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 98bcaa39-978f-52f6-90d1-6449ea646e26
+		summarizeBy: sum
+		sourceColumn: PasivoCorriente
+
+		annotation SummarizationSetBy = Automatic
+
+	column DeudaFinancieraLP
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 1340da40-70ca-5103-8fdd-ca9a5ba06c5c
+		summarizeBy: sum
+		sourceColumn: DeudaFinancieraLP
+
+		annotation SummarizationSetBy = Automatic
+
+	column PasivoTotal
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 222f06fb-a975-574c-a799-4ad8422f056b
+		summarizeBy: sum
+		sourceColumn: PasivoTotal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Patrimonio
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 191edb04-5996-558b-afec-0b509b20303a
+		summarizeBy: sum
+		sourceColumn: Patrimonio
+
+		annotation SummarizationSetBy = Automatic
+
+	column PasivoMasPatrimonio
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 9e3abf48-8214-5915-8b2a-e269e8f312cf
+		summarizeBy: sum
+		sourceColumn: PasivoMasPatrimonio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cuadratura
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 4ae1f57a-a170-5a28-9a24-f359a9bdecf1
+		summarizeBy: sum
+		sourceColumn: Cuadratura
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fecha
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 854361c5-67d4-5e43-81ea-21760971b2e1
+		summarizeBy: none
+		sourceColumn: Fecha
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Balance = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "02_Finanzas.xlsx"), null, true),
+				    Datos = Origen{[Item="tBalance",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"Anio", "Mes", "Caja", "CuentasPorCobrar", "Inventario", "OtrosActivosCorrientes", "ActivoCorriente", "ActivoFijoNeto", "ActivoTotal", "CuentasPorPagar", "OtrosPasivosCorrientes", "PasivoCorriente", "DeudaFinancieraLP", "PasivoTotal", "Patrimonio", "PasivoMasPatrimonio", "Cuadratura"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"Periodo", type text}, {"Anio", Int64.Type}, {"Mes", Int64.Type}, {"Caja", Int64.Type}, {"CuentasPorCobrar", Int64.Type}, {"Inventario", Int64.Type}, {"OtrosActivosCorrientes", Int64.Type}, {"ActivoCorriente", Int64.Type}, {"ActivoFijoNeto", Int64.Type}, {"ActivoTotal", Int64.Type}, {"CuentasPorPagar", Int64.Type}, {"OtrosPasivosCorrientes", Int64.Type}, {"PasivoCorriente", Int64.Type}, {"DeudaFinancieraLP", Int64.Type}, {"PasivoTotal", Int64.Type}, {"Patrimonio", Int64.Type}, {"PasivoMasPatrimonio", Int64.Type}, {"Cuadratura", Int64.Type}}),
+				    ConFecha = Table.AddColumn(Tipos, "Fecha", each #date([Anio], [Mes], 1), type date)
+				in
+				    ConFecha
+
+	annotation PBI_ResultType = Table

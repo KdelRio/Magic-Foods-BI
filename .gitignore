@@ -1,0 +1,7 @@
+# Power BI: configuración local y caché de datos (se regenera con "Actualizar")
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# Archivos temporales de Office y Tableau
+~$*
+~*

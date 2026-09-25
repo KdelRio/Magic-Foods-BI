@@ -1,0 +1,210 @@
+table CuentasPorCobrar
+	lineageTag: e8d18d00-58c7-59d8-8789-f840e91b8064
+
+	column NroFactura
+		dataType: string
+		lineageTag: fe6dafc2-09a1-5aaa-8595-125776495068
+		summarizeBy: none
+		sourceColumn: NroFactura
+
+		annotation SummarizationSetBy = Automatic
+
+	column PedidoID
+		dataType: string
+		lineageTag: 51d95b6c-00f8-5182-9ce1-aaf5cfe07bea
+		summarizeBy: none
+		sourceColumn: PedidoID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaEmision
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: d75f4cc6-95d5-5763-bc88-2f8f8e95dfd0
+		summarizeBy: none
+		sourceColumn: FechaEmision
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClienteID
+		dataType: string
+		lineageTag: 9805c0dd-7d71-5d64-ba33-0b20b787d8d1
+		summarizeBy: none
+		sourceColumn: ClienteID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cliente
+		dataType: string
+		lineageTag: 9d07092a-c2a0-5135-b154-ebd8194cb12a
+		summarizeBy: none
+		sourceColumn: Cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		lineageTag: 0f07a386-4be4-561b-b68c-388aad3cb88c
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendedorID
+		dataType: string
+		lineageTag: 7dfb2f62-2a93-59dd-bbff-82316a36043f
+		summarizeBy: none
+		sourceColumn: VendedorID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comuna
+		dataType: string
+		lineageTag: 7701f16d-5b95-59f1-a7bf-88fdda86fa81
+		summarizeBy: none
+		sourceColumn: Comuna
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitud
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 081a895b-0441-56d2-bc83-98ba7cf0435f
+		summarizeBy: none
+		sourceColumn: Latitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column Longitud
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 42f87744-c924-5fd8-b0bb-71453054f5f4
+		summarizeBy: none
+		sourceColumn: Longitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column MontoNeto
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 5e0462cc-fb8b-5741-b52c-fdbd3ab5f92d
+		summarizeBy: sum
+		sourceColumn: MontoNeto
+
+		annotation SummarizationSetBy = Automatic
+
+	column IVA
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 28a0b4f5-b8a9-5971-bb0a-bf9db47e6462
+		summarizeBy: sum
+		sourceColumn: IVA
+
+		annotation SummarizationSetBy = Automatic
+
+	column MontoTotal
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: e36857f8-554d-58c3-a9e1-5d9d33638977
+		summarizeBy: sum
+		sourceColumn: MontoTotal
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlazoDias
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: b2d27d60-ee5e-5d62-bc61-492ecbc6cbb4
+		summarizeBy: sum
+		sourceColumn: PlazoDias
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaVencimiento
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: ed3d46e5-8fd9-5d4f-86f0-44977c67931a
+		summarizeBy: none
+		sourceColumn: FechaVencimiento
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaPago
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 78ae4513-57d7-53ec-9bcb-b0c604953388
+		summarizeBy: none
+		sourceColumn: FechaPago
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estado
+		dataType: string
+		lineageTag: 35fee4bc-892a-5503-8f5c-5c670512edcc
+		summarizeBy: none
+		sourceColumn: Estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiasMora
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 8fb5033b-1d5c-5b53-bfb5-e878c31ec3ba
+		summarizeBy: sum
+		sourceColumn: DiasMora
+
+		annotation SummarizationSetBy = Automatic
+
+	column TramoAntiguedad
+		dataType: string
+		lineageTag: b9b3e8d2-777e-53dc-9487-32af22993f44
+		summarizeBy: none
+		sourceColumn: TramoAntiguedad
+
+		annotation SummarizationSetBy = Automatic
+
+	column GestionCobranza
+		dataType: string
+		lineageTag: 9da84f8b-77b8-527e-b562-a5270e960d30
+		summarizeBy: none
+		sourceColumn: GestionCobranza
+
+		annotation SummarizationSetBy = Automatic
+
+	column SaldoPendiente
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: f2c4cb4b-8af9-534f-afa4-33083d73b8c4
+		summarizeBy: sum
+		sourceColumn: SaldoPendiente
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: da62f151-1607-5a3a-9a23-cd93bbc1a6e2
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Macrozona
+		dataType: string
+		lineageTag: 9731b181-f45b-59d6-8871-90f1b17d3501
+		summarizeBy: none
+		sourceColumn: Macrozona
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CuentasPorCobrar = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "02_Finanzas.xlsx"), null, true),
+				    Datos = Origen{[Item="tCuentasPorCobrar",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"FechaEmision", "Latitud", "Longitud", "MontoNeto", "IVA", "MontoTotal", "PlazoDias", "FechaVencimiento", "FechaPago", "DiasMora", "SaldoPendiente"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"NroFactura", type text}, {"PedidoID", type text}, {"FechaEmision", type date}, {"ClienteID", type text}, {"Cliente", type text}, {"Canal", type text}, {"VendedorID", type text}, {"Comuna", type text}, {"Latitud", type number}, {"Longitud", type number}, {"MontoNeto", Int64.Type}, {"IVA", Int64.Type}, {"MontoTotal", Int64.Type}, {"PlazoDias", Int64.Type}, {"FechaVencimiento", type date}, {"FechaPago", type date}, {"Estado", type text}, {"DiasMora", Int64.Type}, {"TramoAntiguedad", type text}, {"GestionCobranza", type text}, {"SaldoPendiente", Int64.Type}, {"Region", type text}, {"Macrozona", type text}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

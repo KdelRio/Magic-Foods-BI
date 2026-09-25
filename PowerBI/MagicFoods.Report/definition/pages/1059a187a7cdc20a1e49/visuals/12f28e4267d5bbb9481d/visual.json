@@ -1,0 +1,124 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "12f28e4267d5bbb9481d",
+  "position": {
+    "x": 420,
+    "y": 455,
+    "z": 14,
+    "height": 255,
+    "width": 850,
+    "tabOrder": 14
+  },
+  "visual": {
+    "visualType": "columnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "InventarioEquipos"
+                    }
+                  },
+                  "Property": "AnioRenovacion"
+                }
+              },
+              "queryRef": "InventarioEquipos.AnioRenovacion",
+              "nativeQueryRef": "AnioRenovacion"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "InventarioEquipos"
+                    }
+                  },
+                  "Property": "TipoEquipo"
+                }
+              },
+              "queryRef": "InventarioEquipos.TipoEquipo",
+              "nativeQueryRef": "TipoEquipo"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Equipos TI"
+                }
+              },
+              "queryRef": "_Medidas.Equipos TI",
+              "nativeQueryRef": "Equipos TI"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "categoryAxis": [
+        {
+          "properties": {
+            "axisType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Categorical'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Plan de renovación: equipos por año sugerido de reemplazo'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

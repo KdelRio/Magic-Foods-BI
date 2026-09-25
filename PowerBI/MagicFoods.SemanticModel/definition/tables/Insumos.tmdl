@@ -1,0 +1,82 @@
+table Insumos
+	lineageTag: dbeaff49-178d-5087-bfaa-c5ae882c15a0
+
+	column InsumoID
+		dataType: string
+		lineageTag: 3a3e0326-5c1c-50f8-b481-21854e43d357
+		summarizeBy: none
+		sourceColumn: InsumoID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Insumo
+		dataType: string
+		lineageTag: 7e298458-174f-5dce-ae7b-b63095994680
+		summarizeBy: none
+		sourceColumn: Insumo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Categoria
+		dataType: string
+		lineageTag: 37b19a10-6670-5650-87bd-f73a700ac6b8
+		summarizeBy: none
+		sourceColumn: Categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unidad
+		dataType: string
+		lineageTag: 727acdc3-310c-5c77-96c0-d486ad46a242
+		summarizeBy: none
+		sourceColumn: Unidad
+
+		annotation SummarizationSetBy = Automatic
+
+	column ConsumoDiarioBase
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: aef82629-aa9a-5d47-8378-f1f977ede9fa
+		summarizeBy: sum
+		sourceColumn: ConsumoDiarioBase
+
+		annotation SummarizationSetBy = Automatic
+
+	column StockCritico
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 439cd9bf-0279-5979-b859-9a568f765de7
+		summarizeBy: sum
+		sourceColumn: StockCritico
+
+		annotation SummarizationSetBy = Automatic
+
+	column StockMaximo
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: c2941b14-947a-5ccf-83c6-e8f97b29ea7e
+		summarizeBy: sum
+		sourceColumn: StockMaximo
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProveedoresHabilitados
+		dataType: string
+		lineageTag: 3818e365-f461-5d2e-9c71-67d2ba203155
+		summarizeBy: none
+		sourceColumn: ProveedoresHabilitados
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Insumos = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "00_Maestros.xlsx"), null, true),
+				    Datos = Origen{[Item="tInsumos",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"ConsumoDiarioBase", "StockCritico", "StockMaximo"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"InsumoID", type text}, {"Insumo", type text}, {"Categoria", type text}, {"Unidad", type text}, {"ConsumoDiarioBase", Int64.Type}, {"StockCritico", Int64.Type}, {"StockMaximo", Int64.Type}, {"ProveedoresHabilitados", type text}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

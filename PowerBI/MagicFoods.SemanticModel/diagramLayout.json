@@ -1,0 +1,360 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 2737.3224936616584,
+            "y": 860.23957993862177
+          },
+          "nodeIndex": "_Medidas",
+          "nodeLineageTag": "16aefcbf-92b7-5d3e-a75e-6168324c2cf2",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1127.0471052379539,
+            "y": 677.56041521282373
+          },
+          "nodeIndex": "Balance",
+          "nodeLineageTag": "1a4348d7-8343-56d4-ac94-c1c84859f92d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1338.5469418202415,
+            "y": 1033.4435040589008
+          },
+          "nodeIndex": "Calendario",
+          "nodeLineageTag": "56d58981-8fa4-5c88-8454-c40411c98cbe",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1753.0139526375215,
+            "y": 47.431877444236761
+          },
+          "nodeIndex": "Clientes",
+          "nodeLineageTag": "0596f5fa-92ce-5402-b842-83e9a2ff92db",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 760.993658056397,
+            "y": 247.2620610218396
+          },
+          "nodeIndex": "Compras",
+          "nodeLineageTag": "8b809fea-5e09-54fb-a84d-f5d9b3634c86",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1265.6969515173612,
+            "y": 320.35811542946431
+          },
+          "nodeIndex": "CuentasPorCobrar",
+          "nodeLineageTag": "f74833e3-939c-5f9e-ac94-ae46c5643a10",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 567.43710713102848,
+            "y": 604.506103640897
+          },
+          "nodeIndex": "CuentasPorPagar",
+          "nodeLineageTag": "f2c4cb4b-8af9-534f-afa4-33083d73b8c4",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1870.945225588483,
+            "y": 404.73424853386859
+          },
+          "nodeIndex": "DetallePedidos",
+          "nodeLineageTag": "3ccaf38a-f3a2-58a1-9586-920497df5e37",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 1481.2873635640763
+          },
+          "nodeIndex": "Empleados",
+          "nodeLineageTag": "2eaa2792-7591-528e-a00e-2f817379c812",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 697.09991793268,
+            "y": 1319.1083223781197
+          },
+          "nodeIndex": "EstadoResultados",
+          "nodeLineageTag": "51abdfaa-fe34-5aa5-bf24-ea6b55c43f06",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 540.4371735665577,
+            "y": 961.76385564056454
+          },
+          "nodeIndex": "FlujoCaja",
+          "nodeLineageTag": "854361c5-67d4-5e43-81ea-21760971b2e1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1116.256410596545,
+            "y": 1313.1912080203649
+          },
+          "nodeIndex": "Indicadores",
+          "nodeLineageTag": "a9650ed7-d85b-5e65-a529-ddc2df2acd83",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1049.8823692921108,
+            "y": -50
+          },
+          "nodeIndex": "Insumos",
+          "nodeLineageTag": "fd21565e-a05c-59d0-9dcf-47fb9e48d92b",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3021.3224936616584,
+            "y": 860.23957993862177
+          },
+          "nodeIndex": "InventarioEquipos",
+          "nodeLineageTag": "9549c7cf-5fc5-5054-babe-52a1f3ba20a9",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1898.776796613728,
+            "y": 1669.0447464911431
+          },
+          "nodeIndex": "LineasProduccion",
+          "nodeLineageTag": "3889e530-b255-53a6-916c-083d35bdbcc0",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 340.03029331246182,
+            "y": 1319.0218995750547
+          },
+          "nodeIndex": "Marcaciones",
+          "nodeLineageTag": "26a4eeb8-4d16-5b1a-afa6-acf01618f047",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1661.0153618547276,
+            "y": 1365.8286417850063
+          },
+          "nodeIndex": "MermasProceso",
+          "nodeLineageTag": "5ce10bab-7a30-50fd-a166-97fc6889a71c",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1949.7583007955027,
+            "y": 815.7260308326853
+          },
+          "nodeIndex": "Metas",
+          "nodeLineageTag": "f8add939-4ad6-57ac-9f22-d39dfefca52c",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1115.4802707471033,
+            "y": 1670.4355573072414
+          },
+          "nodeIndex": "Pedidos",
+          "nodeLineageTag": "3818e365-f461-5d2e-9c71-67d2ba203155",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1950.8869819571653,
+            "y": 1118.7765850417586
+          },
+          "nodeIndex": "ProduccionDiaria",
+          "nodeLineageTag": "954bf0c5-5007-5682-9718-ac09b61c7ef6",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1404.0327910948467,
+            "y": 1670.4791598772433
+          },
+          "nodeIndex": "ProduccionLinea",
+          "nodeLineageTag": "89011db2-067c-5644-904c-7f67d840c437",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2239.2658541874689,
+            "y": 631.67892489937458
+          },
+          "nodeIndex": "Productos",
+          "nodeLineageTag": "09f7047e-5ae3-5d6e-9c78-b1f1e80f96df",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 318.98233936547706,
+            "y": 324.00105750318653
+          },
+          "nodeIndex": "Proveedores",
+          "nodeLineageTag": "c033f9cc-eea4-5a47-9bda-2ca826bd3f53",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1581.4377024521434,
+            "y": 608.16306514394637
+          },
+          "nodeIndex": "Reclamos",
+          "nodeLineageTag": "d35800d6-5ab9-55b6-a7f9-705b84b84452",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 829.49280753442883,
+            "y": 961.7620341538526
+          },
+          "nodeIndex": "StockMensual",
+          "nodeLineageTag": "8bea9f00-fce8-58da-8667-181ecb0cdc50",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2503.3224936616584,
+            "y": 375.76902804918836
+          },
+          "nodeIndex": "Vendedores",
+          "nodeLineageTag": "71213e74-ef54-554b-b01f-6dbac256576b",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas las tablas",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas las tablas",
+  "defaultDiagram": "Todas las tablas"
+}

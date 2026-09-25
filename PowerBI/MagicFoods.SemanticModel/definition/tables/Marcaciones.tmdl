@@ -1,0 +1,145 @@
+table Marcaciones
+	lineageTag: 1fe27e99-0d1e-5a3b-a870-36468246e25d
+
+	column Fecha
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: b73b7f8f-b6a5-588e-a62c-40e72534595d
+		summarizeBy: none
+		sourceColumn: Fecha
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anio
+		dataType: int64
+		formatString: 0
+		lineageTag: 06254e96-6090-5095-9041-614fb919d489
+		summarizeBy: none
+		sourceColumn: Anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: int64
+		formatString: 0
+		lineageTag: baa0a8d4-a422-5ce4-a1a5-539d95ea05e6
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmpleadoID
+		dataType: string
+		lineageTag: e12f4ebf-c471-5c5f-9d18-c7beb0605892
+		summarizeBy: none
+		sourceColumn: EmpleadoID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nombre
+		dataType: string
+		lineageTag: 2e5350b7-6098-5493-a9bf-ca4ff539a40f
+		summarizeBy: none
+		sourceColumn: Nombre
+
+		annotation SummarizationSetBy = Automatic
+
+	column Area
+		dataType: string
+		lineageTag: c16c36f7-fc84-55c5-8656-15db1cc3e53a
+		summarizeBy: none
+		sourceColumn: Area
+
+		annotation SummarizationSetBy = Automatic
+
+	column Turno
+		dataType: string
+		lineageTag: f65911b1-1d94-57f1-9661-ba74c79ecd82
+		summarizeBy: none
+		sourceColumn: Turno
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estado
+		dataType: string
+		lineageTag: 30c15090-2c76-5665-b063-a23200348710
+		summarizeBy: none
+		sourceColumn: Estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column EntradaProgramada
+		dataType: dateTime
+		formatString: HH:mm
+		lineageTag: 03158631-7b90-5511-9d9f-917ca32b0486
+		summarizeBy: none
+		sourceColumn: EntradaProgramada
+
+		annotation SummarizationSetBy = Automatic
+
+	column EntradaReal
+		dataType: dateTime
+		formatString: HH:mm
+		lineageTag: 9f9877af-2bab-5ad8-8ec0-eba429983a3b
+		summarizeBy: none
+		sourceColumn: EntradaReal
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalidaProgramada
+		dataType: dateTime
+		formatString: HH:mm
+		lineageTag: 784bb8fa-b671-5be3-98dc-dbabc734c712
+		summarizeBy: none
+		sourceColumn: SalidaProgramada
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalidaReal
+		dataType: dateTime
+		formatString: HH:mm
+		lineageTag: 9a81e0b1-546e-5573-b806-2dd653dda85b
+		summarizeBy: none
+		sourceColumn: SalidaReal
+
+		annotation SummarizationSetBy = Automatic
+
+	column MinutosAtraso
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 9549c7cf-5fc5-5054-babe-52a1f3ba20a9
+		summarizeBy: sum
+		sourceColumn: MinutosAtraso
+
+		annotation SummarizationSetBy = Automatic
+
+	column HorasTrabajadas
+		dataType: double
+		formatString: #,0.##
+		lineageTag: e8d1315c-1130-5903-88aa-e3c4a241d0a1
+		summarizeBy: sum
+		sourceColumn: HorasTrabajadas
+
+		annotation SummarizationSetBy = Automatic
+
+	column HorasExtra
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 6225c382-aa5a-574e-84e3-d33edd8852e1
+		summarizeBy: sum
+		sourceColumn: HorasExtra
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Marcaciones = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "06_Personas.xlsx"), null, true),
+				    Datos = Origen{[Item="tMarcaciones",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"Fecha", "Anio", "Mes", "EntradaProgramada", "EntradaReal", "SalidaProgramada", "SalidaReal", "MinutosAtraso", "HorasTrabajadas", "HorasExtra"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"Fecha", type date}, {"Anio", Int64.Type}, {"Mes", Int64.Type}, {"EmpleadoID", type text}, {"Nombre", type text}, {"Area", type text}, {"Turno", type text}, {"Estado", type text}, {"EntradaProgramada", type time}, {"EntradaReal", type time}, {"SalidaProgramada", type time}, {"SalidaReal", type time}, {"MinutosAtraso", Int64.Type}, {"HorasTrabajadas", type number}, {"HorasExtra", type number}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

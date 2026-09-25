@@ -1,0 +1,153 @@
+table CuentasPorPagar
+	lineageTag: 7e328a9b-ed1b-5ef3-8923-9509668719b5
+
+	column NroFacturaProv
+		dataType: string
+		lineageTag: d9e82f6c-267d-57b3-ba89-30969f476196
+		summarizeBy: none
+		sourceColumn: NroFacturaProv
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrdenCompra
+		dataType: string
+		lineageTag: 6686ba4b-0487-59f3-952a-23ef1593b564
+		summarizeBy: none
+		sourceColumn: OrdenCompra
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaEmision
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 9ae01df7-4bfa-511a-8327-818550295d93
+		summarizeBy: none
+		sourceColumn: FechaEmision
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProveedorID
+		dataType: string
+		lineageTag: 606f4268-387c-59d6-a410-0346a9e96a8a
+		summarizeBy: none
+		sourceColumn: ProveedorID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Proveedor
+		dataType: string
+		lineageTag: 3926c5c1-d79b-577b-ac78-c57502c24367
+		summarizeBy: none
+		sourceColumn: Proveedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column Categoria
+		dataType: string
+		lineageTag: 5cb26340-6745-5f6a-b424-7f66f987c3bf
+		summarizeBy: none
+		sourceColumn: Categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column MontoNeto
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: be6e7725-b8ce-55ff-946b-ad807b087a55
+		summarizeBy: sum
+		sourceColumn: MontoNeto
+
+		annotation SummarizationSetBy = Automatic
+
+	column IVA
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 2345fb04-7c00-500d-ab77-f772faaf1d42
+		summarizeBy: sum
+		sourceColumn: IVA
+
+		annotation SummarizationSetBy = Automatic
+
+	column MontoTotal
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 35227d52-702d-5973-a804-e679f2939c9c
+		summarizeBy: sum
+		sourceColumn: MontoTotal
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlazoAcordado
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: afca4e58-ae27-5848-abc3-5acb6af7b060
+		summarizeBy: sum
+		sourceColumn: PlazoAcordado
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaVencimiento
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 34c43225-818c-59ed-a762-0aeac9d13dc2
+		summarizeBy: none
+		sourceColumn: FechaVencimiento
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaPago
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: eb10a543-a2ec-5e88-a01d-6a438ba189a7
+		summarizeBy: none
+		sourceColumn: FechaPago
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estado
+		dataType: string
+		lineageTag: 3dd3be1d-4740-5700-bbf1-d718f955c67c
+		summarizeBy: none
+		sourceColumn: Estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiasPagoReal
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 8b809fea-5e09-54fb-a84d-f5d9b3634c86
+		summarizeBy: sum
+		sourceColumn: DiasPagoReal
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiasMora
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 6b621471-c8c7-5787-aa8a-3742490ba0a8
+		summarizeBy: sum
+		sourceColumn: DiasMora
+
+		annotation SummarizationSetBy = Automatic
+
+	column SaldoPendiente
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 9495d2d1-b3c8-5baa-9f8a-06cc96325d38
+		summarizeBy: sum
+		sourceColumn: SaldoPendiente
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CuentasPorPagar = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "02_Finanzas.xlsx"), null, true),
+				    Datos = Origen{[Item="tCuentasPorPagar",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"FechaEmision", "MontoNeto", "IVA", "MontoTotal", "PlazoAcordado", "FechaVencimiento", "FechaPago", "DiasPagoReal", "DiasMora", "SaldoPendiente"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"NroFacturaProv", type text}, {"OrdenCompra", type text}, {"FechaEmision", type date}, {"ProveedorID", type text}, {"Proveedor", type text}, {"Categoria", type text}, {"MontoNeto", Int64.Type}, {"IVA", Int64.Type}, {"MontoTotal", Int64.Type}, {"PlazoAcordado", Int64.Type}, {"FechaVencimiento", type date}, {"FechaPago", type date}, {"Estado", type text}, {"DiasPagoReal", Int64.Type}, {"DiasMora", Int64.Type}, {"SaldoPendiente", Int64.Type}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

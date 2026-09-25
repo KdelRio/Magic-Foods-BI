@@ -1,0 +1,76 @@
+table Metas
+	lineageTag: ae669bbc-8773-58f1-88e0-99c3225f2ef9
+
+	column Anio
+		dataType: int64
+		formatString: 0
+		lineageTag: ee06e2ee-960f-5130-97d9-cc45dea73e67
+		summarizeBy: none
+		sourceColumn: Anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: int64
+		formatString: 0
+		lineageTag: 61362cec-fd82-560c-b9d9-a881a5927030
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendedorID
+		dataType: string
+		lineageTag: 9732bfa5-60b0-5398-b831-8118766ab673
+		summarizeBy: none
+		sourceColumn: VendedorID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Vendedor
+		dataType: string
+		lineageTag: c7c447fe-b3ed-5df4-ad2b-a1631bf07181
+		summarizeBy: none
+		sourceColumn: Vendedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		lineageTag: 7012b4c1-d279-5737-897a-0e75d1c0791f
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetaVenta
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: ffd8a232-e4a4-5436-bcdc-76b17e28a54e
+		summarizeBy: sum
+		sourceColumn: MetaVenta
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fecha
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 51abdfaa-fe34-5aa5-bf24-ea6b55c43f06
+		summarizeBy: none
+		sourceColumn: Fecha
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Metas = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "01_Comercial.xlsx"), null, true),
+				    Datos = Origen{[Item="tMetas",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"Anio", "Mes", "MetaVenta"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"Anio", Int64.Type}, {"Mes", Int64.Type}, {"VendedorID", type text}, {"Vendedor", type text}, {"Canal", type text}, {"MetaVenta", Int64.Type}}),
+				    ConFecha = Table.AddColumn(Tipos, "Fecha", each #date([Anio], [Mes], 1), type date)
+				in
+				    ConFecha
+
+	annotation PBI_ResultType = Table

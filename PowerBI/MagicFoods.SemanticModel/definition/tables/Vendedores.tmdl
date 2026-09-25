@@ -1,0 +1,55 @@
+table Vendedores
+	lineageTag: 046e46c9-ecd4-5ab5-a571-7aeee3976d14
+
+	column VendedorID
+		dataType: string
+		lineageTag: 2f90d06b-f4df-5254-bd21-9de71561f10b
+		summarizeBy: none
+		sourceColumn: VendedorID
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmpleadoID
+		dataType: string
+		lineageTag: a87d39e0-ca65-57ad-b22d-48658a1933f9
+		summarizeBy: none
+		sourceColumn: EmpleadoID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Vendedor
+		dataType: string
+		lineageTag: a4ae5d18-73cd-57f5-b9dd-72d555de0c35
+		summarizeBy: none
+		sourceColumn: Vendedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column CanalAsignado
+		dataType: string
+		lineageTag: a0ff0eaf-a691-5b3f-8f23-e5440e0d9af5
+		summarizeBy: none
+		sourceColumn: CanalAsignado
+
+		annotation SummarizationSetBy = Automatic
+
+	column Zona
+		dataType: string
+		lineageTag: 2eaa2792-7591-528e-a00e-2f817379c812
+		summarizeBy: none
+		sourceColumn: Zona
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Vendedores = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "00_Maestros.xlsx"), null, true),
+				    Datos = Origen{[Item="tVendedores",Kind="Table"]}[Data],
+				    SinVacios = Datos,
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"VendedorID", type text}, {"EmpleadoID", type text}, {"Vendedor", type text}, {"CanalAsignado", type text}, {"Zona", type text}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

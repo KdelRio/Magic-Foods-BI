@@ -1,0 +1,75 @@
+table MermasProceso
+	lineageTag: e9f825fd-381d-550a-8d15-22f73983c742
+
+	column Fecha
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 562ce4c6-4f39-55cd-b87b-991553eac78f
+		summarizeBy: none
+		sourceColumn: Fecha
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anio
+		dataType: int64
+		formatString: 0
+		lineageTag: 1b371eb9-99a8-563d-88d6-b7213a1b3188
+		summarizeBy: none
+		sourceColumn: Anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d3e5a2b-fb90-5a4b-beed-e58a8b793ba8
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column LineaID
+		dataType: string
+		lineageTag: 04d18aa3-1e0a-56ed-a046-8fe03e3b6215
+		summarizeBy: none
+		sourceColumn: LineaID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Proceso
+		dataType: string
+		lineageTag: d35800d6-5ab9-55b6-a7f9-705b84b84452
+		summarizeBy: none
+		sourceColumn: Proceso
+
+		annotation SummarizationSetBy = Automatic
+
+	column KgMerma
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 770cfd6a-9534-52cd-a886-989021ec3d0e
+		summarizeBy: sum
+		sourceColumn: KgMerma
+
+		annotation SummarizationSetBy = Automatic
+
+	column CausaPrincipal
+		dataType: string
+		lineageTag: a73c10a4-2d10-5508-a4fa-5b1d5bc1f0c6
+		summarizeBy: none
+		sourceColumn: CausaPrincipal
+
+		annotation SummarizationSetBy = Automatic
+
+	partition MermasProceso = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "04_Produccion.xlsx"), null, true),
+				    Datos = Origen{[Item="tMermasProceso",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"Fecha", "Anio", "Mes", "KgMerma"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"Fecha", type date}, {"Anio", Int64.Type}, {"Mes", Int64.Type}, {"LineaID", type text}, {"Proceso", type text}, {"KgMerma", type number}, {"CausaPrincipal", type text}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

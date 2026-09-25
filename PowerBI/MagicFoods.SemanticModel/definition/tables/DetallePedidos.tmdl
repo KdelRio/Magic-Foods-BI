@@ -1,0 +1,161 @@
+table DetallePedidos
+	lineageTag: 9634c398-1074-54a4-b98b-7954759ce310
+
+	column PedidoID
+		dataType: string
+		lineageTag: 77be747c-1ef7-519c-9574-0eebe8d6bc88
+		summarizeBy: none
+		sourceColumn: PedidoID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Linea
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: cc4ef723-4ad9-5b78-be7f-490c2d02fb16
+		summarizeBy: none
+		sourceColumn: Linea
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaPedido
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: bbd7ede8-9687-5dcc-bdb5-00084b4bd51c
+		summarizeBy: none
+		sourceColumn: FechaPedido
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anio
+		dataType: int64
+		formatString: 0
+		lineageTag: 73448c64-d3a6-5389-aee2-8c232de14448
+		summarizeBy: none
+		sourceColumn: Anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: int64
+		formatString: 0
+		lineageTag: 68fe78e5-93b2-5f15-b9cc-1659c4579c6d
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClienteID
+		dataType: string
+		lineageTag: 7cd886b2-fce5-5a7a-9860-f1f9c3aa7473
+		summarizeBy: none
+		sourceColumn: ClienteID
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendedorID
+		dataType: string
+		lineageTag: 807391dc-0818-5b28-b0a0-882f8a3866db
+		summarizeBy: none
+		sourceColumn: VendedorID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		lineageTag: 8d9c3ec1-409e-528f-9ae5-2a4d0497e2ae
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column SKU
+		dataType: string
+		lineageTag: f45d204c-5215-5e7e-b1ef-54ae85132325
+		summarizeBy: none
+		sourceColumn: SKU
+
+		annotation SummarizationSetBy = Automatic
+
+	column Familia
+		dataType: string
+		lineageTag: 9e7af95c-d870-5833-a30c-32ff6be952a9
+		summarizeBy: none
+		sourceColumn: Familia
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cantidad
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: cf89ce60-2296-5d7c-8609-c3164f9cbc25
+		summarizeBy: sum
+		sourceColumn: Cantidad
+
+		annotation SummarizationSetBy = Automatic
+
+	column PrecioUnitario
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: f52eb488-5fcb-5040-9182-8733b81524e1
+		summarizeBy: sum
+		sourceColumn: PrecioUnitario
+
+		annotation SummarizationSetBy = Automatic
+
+	column Descuento
+		dataType: double
+		formatString: #,0.##
+		lineageTag: fd32b33d-d36f-5101-b2b5-26b4ac1edd25
+		summarizeBy: sum
+		sourceColumn: Descuento
+
+		annotation SummarizationSetBy = Automatic
+
+	column VentaNeta
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: eee34b42-1fa6-5877-89a4-12069192d728
+		summarizeBy: sum
+		sourceColumn: VentaNeta
+
+		annotation SummarizationSetBy = Automatic
+
+	column CostoUnitario
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 0b968cc9-a074-5c8e-b852-3536e20f804f
+		summarizeBy: sum
+		sourceColumn: CostoUnitario
+
+		annotation SummarizationSetBy = Automatic
+
+	column CostoTotal
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 46e4db23-38a2-5798-a6e6-94cdb60e096e
+		summarizeBy: sum
+		sourceColumn: CostoTotal
+
+		annotation SummarizationSetBy = Automatic
+
+	column EstadoPedido
+		dataType: string
+		lineageTag: f8add939-4ad6-57ac-9f22-d39dfefca52c
+		summarizeBy: none
+		sourceColumn: EstadoPedido
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DetallePedidos = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "01_Comercial.xlsx"), null, true),
+				    Datos = Origen{[Item="tDetallePedidos",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"Linea", "FechaPedido", "Anio", "Mes", "Cantidad", "PrecioUnitario", "Descuento", "VentaNeta", "CostoUnitario", "CostoTotal"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"PedidoID", type text}, {"Linea", Int64.Type}, {"FechaPedido", type date}, {"Anio", Int64.Type}, {"Mes", Int64.Type}, {"ClienteID", type text}, {"VendedorID", type text}, {"Canal", type text}, {"SKU", type text}, {"Familia", type text}, {"Cantidad", Int64.Type}, {"PrecioUnitario", Int64.Type}, {"Descuento", type number}, {"VentaNeta", Int64.Type}, {"CostoUnitario", Int64.Type}, {"CostoTotal", Int64.Type}, {"EstadoPedido", type text}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

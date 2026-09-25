@@ -1,0 +1,91 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "e1362984ab84c246e69d",
+  "position": {
+    "x": 10,
+    "y": 455,
+    "z": 13,
+    "height": 255,
+    "width": 400,
+    "tabOrder": 13
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "InventarioEquipos"
+                    }
+                  },
+                  "Property": "NivelObsolescencia"
+                }
+              },
+              "queryRef": "InventarioEquipos.NivelObsolescencia",
+              "nativeQueryRef": "NivelObsolescencia"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Medidas"
+                    }
+                  },
+                  "Property": "Equipos TI"
+                }
+              },
+              "queryRef": "_Medidas.Equipos TI",
+              "nativeQueryRef": "Equipos TI"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Nivel de obsolescencia del parque TI'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

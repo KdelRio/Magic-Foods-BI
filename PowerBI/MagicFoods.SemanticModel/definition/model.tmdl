@@ -1,0 +1,41 @@
+model Model
+	culture: es-CL
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-CL
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref cultureInfo es-CL
+
+ref table _Medidas
+ref table Calendario
+ref table Productos
+ref table Clientes
+ref table Vendedores
+ref table Empleados
+ref table LineasProduccion
+ref table Proveedores
+ref table Insumos
+ref table Pedidos
+ref table DetallePedidos
+ref table Metas
+ref table EstadoResultados
+ref table Balance
+ref table FlujoCaja
+ref table Indicadores
+ref table CuentasPorCobrar
+ref table CuentasPorPagar
+ref table Compras
+ref table StockMensual
+ref table ProduccionDiaria
+ref table ProduccionLinea
+ref table MermasProceso
+ref table Reclamos
+ref table Marcaciones
+ref table InventarioEquipos

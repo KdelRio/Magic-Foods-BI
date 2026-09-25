@@ -1,0 +1,177 @@
+table FlujoCaja
+	lineageTag: 3eb9b1b6-6dc8-5e92-881c-ee1c29b5afe8
+
+	column Periodo
+		dataType: string
+		lineageTag: 65aee2d3-eb52-578f-8ae5-2af74f8811b0
+		summarizeBy: none
+		sourceColumn: Periodo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anio
+		dataType: int64
+		formatString: 0
+		lineageTag: 9dea93b1-da9c-5e21-b920-faa78395d424
+		summarizeBy: none
+		sourceColumn: Anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: int64
+		formatString: 0
+		lineageTag: 5ea8fab9-66dc-504f-be8e-2dd223cee052
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column UtilidadNeta
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: d48321b1-c181-56c1-91e0-83022b807a12
+		summarizeBy: sum
+		sourceColumn: UtilidadNeta
+
+		annotation SummarizationSetBy = Automatic
+
+	column Depreciacion
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 240bbcf0-24ca-5c66-8a0a-54aff9c5d699
+		summarizeBy: sum
+		sourceColumn: Depreciacion
+
+		annotation SummarizationSetBy = Automatic
+
+	column VarCxC
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 65051ebc-3534-551b-a3f8-5abf032d1de3
+		summarizeBy: sum
+		sourceColumn: VarCxC
+
+		annotation SummarizationSetBy = Automatic
+
+	column VarInventario
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 3994a056-8cda-51ea-813a-0db2b5f18f50
+		summarizeBy: sum
+		sourceColumn: VarInventario
+
+		annotation SummarizationSetBy = Automatic
+
+	column VarOtrosActivos
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: f981232b-04e4-5a76-9acb-431c2b68f67a
+		summarizeBy: sum
+		sourceColumn: VarOtrosActivos
+
+		annotation SummarizationSetBy = Automatic
+
+	column VarPasivosOperacionales
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 31cf2c25-5eab-53de-adcb-6d854c53eaad
+		summarizeBy: sum
+		sourceColumn: VarPasivosOperacionales
+
+		annotation SummarizationSetBy = Automatic
+
+	column FlujoOperativo
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 2f9f0717-afff-5797-bf64-dd1ef4e16eea
+		summarizeBy: sum
+		sourceColumn: FlujoOperativo
+
+		annotation SummarizationSetBy = Automatic
+
+	column FlujoInversion
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: f3862091-c689-5dd8-8801-85355eaf8b6b
+		summarizeBy: sum
+		sourceColumn: FlujoInversion
+
+		annotation SummarizationSetBy = Automatic
+
+	column FlujoCajaLibre
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 33e231af-645e-5b36-8f23-615bfd6168a2
+		summarizeBy: sum
+		sourceColumn: FlujoCajaLibre
+
+		annotation SummarizationSetBy = Automatic
+
+	column FlujoFinanciamiento
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 75e2a21a-265a-573f-ac38-f77c7d549bbb
+		summarizeBy: sum
+		sourceColumn: FlujoFinanciamiento
+
+		annotation SummarizationSetBy = Automatic
+
+	column FlujoNeto
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 8690df6d-1709-5c61-b710-6158e1b3094b
+		summarizeBy: sum
+		sourceColumn: FlujoNeto
+
+		annotation SummarizationSetBy = Automatic
+
+	column CajaInicial
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 2923daeb-ed86-5bbf-b4d2-2a597efd845b
+		summarizeBy: sum
+		sourceColumn: CajaInicial
+
+		annotation SummarizationSetBy = Automatic
+
+	column CajaFinal
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: a16d2eb9-13f4-50f6-a7f7-5b18338441dc
+		summarizeBy: sum
+		sourceColumn: CajaFinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column ControlVsBalance
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: e14a02bd-c52f-5bf4-90e9-16067d6f1fc3
+		summarizeBy: sum
+		sourceColumn: ControlVsBalance
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fecha
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: a9650ed7-d85b-5e65-a529-ddc2df2acd83
+		summarizeBy: none
+		sourceColumn: Fecha
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FlujoCaja = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "02_Finanzas.xlsx"), null, true),
+				    Datos = Origen{[Item="tFlujoCaja",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"Anio", "Mes", "UtilidadNeta", "Depreciacion", "VarCxC", "VarInventario", "VarOtrosActivos", "VarPasivosOperacionales", "FlujoOperativo", "FlujoInversion", "FlujoCajaLibre", "FlujoFinanciamiento", "FlujoNeto", "CajaInicial", "CajaFinal", "ControlVsBalance"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"Periodo", type text}, {"Anio", Int64.Type}, {"Mes", Int64.Type}, {"UtilidadNeta", Int64.Type}, {"Depreciacion", Int64.Type}, {"VarCxC", Int64.Type}, {"VarInventario", Int64.Type}, {"VarOtrosActivos", Int64.Type}, {"VarPasivosOperacionales", Int64.Type}, {"FlujoOperativo", Int64.Type}, {"FlujoInversion", Int64.Type}, {"FlujoCajaLibre", Int64.Type}, {"FlujoFinanciamiento", Int64.Type}, {"FlujoNeto", Int64.Type}, {"CajaInicial", Int64.Type}, {"CajaFinal", Int64.Type}, {"ControlVsBalance", Int64.Type}}),
+				    ConFecha = Table.AddColumn(Tipos, "Fecha", each #date([Anio], [Mes], 1), type date)
+				in
+				    ConFecha
+
+	annotation PBI_ResultType = Table

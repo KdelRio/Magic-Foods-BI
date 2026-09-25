@@ -1,0 +1,159 @@
+table EstadoResultados
+	lineageTag: a582c744-0f38-5ef4-8bd5-bb1ffda7d645
+
+	column Periodo
+		dataType: string
+		lineageTag: ac7b9c8d-ab3d-5102-b640-b5d507457a38
+		summarizeBy: none
+		sourceColumn: Periodo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anio
+		dataType: int64
+		formatString: 0
+		lineageTag: a8bd86a3-241a-593b-a540-b46fae14a654
+		summarizeBy: none
+		sourceColumn: Anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: int64
+		formatString: 0
+		lineageTag: 0324480b-383d-59f8-aa47-8cb887b999f3
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ingresos
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 0e4c2920-3612-5228-9d49-6ec4075c4dbc
+		summarizeBy: sum
+		sourceColumn: Ingresos
+
+		annotation SummarizationSetBy = Automatic
+
+	column CostoVentas
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 982ac723-1786-57ef-b1c1-2ebd22305f66
+		summarizeBy: sum
+		sourceColumn: CostoVentas
+
+		annotation SummarizationSetBy = Automatic
+
+	column UtilidadBruta
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 0ba1dace-6855-55cc-8951-8e19320bb432
+		summarizeBy: sum
+		sourceColumn: UtilidadBruta
+
+		annotation SummarizationSetBy = Automatic
+
+	column GastosAdministracion
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: bf7f663b-9e8a-513e-a2d2-f7613239f7a1
+		summarizeBy: sum
+		sourceColumn: GastosAdministracion
+
+		annotation SummarizationSetBy = Automatic
+
+	column GastosVenta
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: b8ed32c4-f987-5906-bb30-93af822a6208
+		summarizeBy: sum
+		sourceColumn: GastosVenta
+
+		annotation SummarizationSetBy = Automatic
+
+	column EBITDA
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 57bd5edb-f729-580f-b95f-fc2c94197ca1
+		summarizeBy: sum
+		sourceColumn: EBITDA
+
+		annotation SummarizationSetBy = Automatic
+
+	column Depreciacion
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 7733f460-da6c-53e1-93e1-4e6500257178
+		summarizeBy: sum
+		sourceColumn: Depreciacion
+
+		annotation SummarizationSetBy = Automatic
+
+	column EBIT
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 924749c7-1abb-5a12-989d-45a578861cf8
+		summarizeBy: sum
+		sourceColumn: EBIT
+
+		annotation SummarizationSetBy = Automatic
+
+	column GastosFinancieros
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 07f617bd-184f-5f75-9999-6426730f17a5
+		summarizeBy: sum
+		sourceColumn: GastosFinancieros
+
+		annotation SummarizationSetBy = Automatic
+
+	column UtilidadAntesImpuesto
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 27c3e0d1-ffa6-5886-9e16-04d8b9628fac
+		summarizeBy: sum
+		sourceColumn: UtilidadAntesImpuesto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Impuesto
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 3b2937fd-917a-5933-99fd-65a4e681022c
+		summarizeBy: sum
+		sourceColumn: Impuesto
+
+		annotation SummarizationSetBy = Automatic
+
+	column UtilidadNeta
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: a4d03eb1-a528-5f23-921b-bede69f332da
+		summarizeBy: sum
+		sourceColumn: UtilidadNeta
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fecha
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 1a4348d7-8343-56d4-ac94-c1c84859f92d
+		summarizeBy: none
+		sourceColumn: Fecha
+
+		annotation SummarizationSetBy = Automatic
+
+	partition EstadoResultados = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "02_Finanzas.xlsx"), null, true),
+				    Datos = Origen{[Item="tEstadoResultados",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"Anio", "Mes", "Ingresos", "CostoVentas", "UtilidadBruta", "GastosAdministracion", "GastosVenta", "EBITDA", "Depreciacion", "EBIT", "GastosFinancieros", "UtilidadAntesImpuesto", "Impuesto", "UtilidadNeta"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"Periodo", type text}, {"Anio", Int64.Type}, {"Mes", Int64.Type}, {"Ingresos", Int64.Type}, {"CostoVentas", Int64.Type}, {"UtilidadBruta", Int64.Type}, {"GastosAdministracion", Int64.Type}, {"GastosVenta", Int64.Type}, {"EBITDA", Int64.Type}, {"Depreciacion", Int64.Type}, {"EBIT", Int64.Type}, {"GastosFinancieros", Int64.Type}, {"UtilidadAntesImpuesto", Int64.Type}, {"Impuesto", Int64.Type}, {"UtilidadNeta", Int64.Type}}),
+				    ConFecha = Table.AddColumn(Tipos, "Fecha", each #date([Anio], [Mes], 1), type date)
+				in
+				    ConFecha
+
+	annotation PBI_ResultType = Table

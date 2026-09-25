@@ -1,0 +1,321 @@
+table _Medidas
+	lineageTag: ed054d2c-21a5-5202-be5b-1d04aac1c92e
+
+	measure 'Ventas Netas' = CALCULATE(SUM(DetallePedidos[VentaNeta]), DetallePedidos[EstadoPedido] <> "Anulado")
+		formatString: \$#,0
+		displayFolder: Comercial
+		lineageTag: b2b6bf9b-2e48-54a3-82d6-46e40beac9f0
+
+	measure 'Costo de Ventas' = CALCULATE(SUM(DetallePedidos[CostoTotal]), DetallePedidos[EstadoPedido] <> "Anulado")
+		formatString: \$#,0
+		displayFolder: Comercial
+		lineageTag: 7da3e1fc-ec2d-5a3b-a568-570cd34a5f1f
+
+	measure 'Margen Bruto' = [Ventas Netas] - [Costo de Ventas]
+		formatString: \$#,0
+		displayFolder: Comercial
+		lineageTag: fd4c16f2-2f86-5284-a976-03fb2fd95aaa
+
+	measure 'Margen Bruto %' = DIVIDE([Margen Bruto], [Ventas Netas])
+		formatString: 0.0%
+		displayFolder: Comercial
+		lineageTag: deb83875-856d-5dc4-97c0-14185899263a
+
+	measure 'Pedidos' = CALCULATE(DISTINCTCOUNT(DetallePedidos[PedidoID]), DetallePedidos[EstadoPedido] <> "Anulado")
+		formatString: #,0
+		displayFolder: Comercial
+		lineageTag: 56819ac7-40d5-5d0b-9503-e911acedd09a
+
+	measure 'Unidades Vendidas' = CALCULATE(SUM(DetallePedidos[Cantidad]), DetallePedidos[EstadoPedido] <> "Anulado")
+		formatString: #,0
+		displayFolder: Comercial
+		lineageTag: dc852921-16a1-5e23-af2a-e844052b20a4
+
+	measure 'Ticket Promedio' = DIVIDE([Ventas Netas], [Pedidos])
+		formatString: \$#,0
+		displayFolder: Comercial
+		lineageTag: ebe6acfa-9e23-55f8-b326-71654e09fc3f
+
+	measure 'Ventas Año Anterior' = CALCULATE([Ventas Netas], SAMEPERIODLASTYEAR(Calendario[Fecha]))
+		formatString: \$#,0
+		displayFolder: Comercial
+		lineageTag: d9127e29-8d7d-53d3-8020-16bece1ba00c
+
+	measure 'Var Interanual %' = VAR y = MAX(Calendario[Anio]) VAR act = CALCULATE([Ventas Netas], Calendario[Anio] = y) VAR ant = CALCULATE([Ventas Netas], Calendario[Anio] = y - 1) RETURN DIVIDE(act - ant, ant)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Comercial
+		lineageTag: 93d6a029-b8b9-52bc-a579-72ba7621246e
+
+	measure 'Pedidos Pendientes' = CALCULATE(COUNTROWS(Pedidos), Pedidos[Estado] = "Pendiente de entrega")
+		formatString: #,0
+		displayFolder: Comercial
+		lineageTag: 5ca0e1c3-ec92-5fa4-975d-9407742c8c92
+
+	measure 'Monto por Facturar' = CALCULATE(SUM(Pedidos[MontoNeto]), Pedidos[Estado] = "Entregado - Por facturar")
+		formatString: \$#,0
+		displayFolder: Comercial
+		lineageTag: 43352155-2a54-56e4-8786-fca46fff81a1
+
+	measure 'Entregas a Tiempo %' = DIVIDE(CALCULATE(COUNTROWS(Pedidos), Pedidos[EntregaATiempo] = "Sí"), CALCULATE(COUNTROWS(Pedidos), Pedidos[EntregaATiempo] <> BLANK()))
+		formatString: 0.0%
+		displayFolder: Comercial
+		lineageTag: b1d90999-dbc3-5dff-8e24-af07658d6053
+
+	measure 'Meta' = SUM(Metas[MetaVenta])
+		formatString: \$#,0
+		displayFolder: Metas y Comisiones
+		lineageTag: c76190dc-aa6a-509e-80af-fcf084d8a07e
+
+	measure 'Logro Meta %' = DIVIDE([Ventas Netas], [Meta])
+		formatString: 0.0%
+		displayFolder: Metas y Comisiones
+		lineageTag: b5333371-c22a-5356-9fe3-6dd4abfcb8c6
+
+	measure 'Comisión' = SUMX(SUMMARIZE(Metas, Vendedores[VendedorID], Calendario[AnioMes]), VAR v = [Ventas Netas] VAR l = DIVIDE(v, [Meta]) RETURN v * SWITCH(TRUE(), l >= 1.1, 0.045, l >= 1, 0.035, l >= 0.95, 0.025, l >= 0.8, 0.015, 0))
+		formatString: \$#,0
+		displayFolder: Metas y Comisiones
+		lineageTag: 89d5441b-9362-5354-8eb0-a8947aff9c82
+
+	measure 'Ingresos' = SUM(EstadoResultados[Ingresos])
+		formatString: \$#,0
+		displayFolder: Finanzas
+		lineageTag: a478c159-32ed-583e-b85d-abcd94f3563e
+
+	measure 'EBITDA' = SUM(EstadoResultados[EBITDA])
+		formatString: \$#,0
+		displayFolder: Finanzas
+		lineageTag: 682209b9-daf7-54c1-a020-aef9ae9bb9e2
+
+	measure 'Utilidad Neta' = SUM(EstadoResultados[UtilidadNeta])
+		formatString: \$#,0
+		displayFolder: Finanzas
+		lineageTag: c55cd8db-53da-5cdd-9354-f6480fa21e4e
+
+	measure 'Margen Bruto Contable %' = DIVIDE(SUM(EstadoResultados[UtilidadBruta]), [Ingresos])
+		formatString: 0.0%
+		displayFolder: Finanzas
+		lineageTag: dcba6d4c-e698-537b-860a-b2103b8b78d6
+
+	measure 'Margen EBITDA %' = DIVIDE([EBITDA], [Ingresos])
+		formatString: 0.0%
+		displayFolder: Finanzas
+		lineageTag: 69919221-ca47-5099-a7df-9c77edcf98eb
+
+	measure 'Margen Neto %' = DIVIDE([Utilidad Neta], [Ingresos])
+		formatString: 0.0%
+		displayFolder: Finanzas
+		lineageTag: afbb8e3c-b532-5110-8bb5-a929441740af
+
+	measure 'ROE' = AVERAGE(Indicadores[ROE])
+		formatString: 0.0%
+		displayFolder: Finanzas
+		lineageTag: 1d7c241a-e01b-5108-b37a-d9c51681896f
+
+	measure 'ROA' = AVERAGE(Indicadores[ROA])
+		formatString: 0.0%
+		displayFolder: Finanzas
+		lineageTag: fa88224c-8736-5258-bf1c-ceecea5490d1
+
+	measure 'ROI' = AVERAGE(Indicadores[ROI])
+		formatString: 0.0%
+		displayFolder: Finanzas
+		lineageTag: 4470f999-ac77-5f5a-8f67-7961c944746e
+
+	measure 'ROCE' = AVERAGE(Indicadores[ROCE])
+		formatString: 0.0%
+		displayFolder: Finanzas
+		lineageTag: 6fa0cb18-7ddb-56cc-bc5b-053e7fc3ef50
+
+	measure 'Test Ácido' = VAR f = MAX(Indicadores[Fecha]) RETURN CALCULATE(SUM(Indicadores[TestAcido]), Indicadores[Fecha] = f)
+		formatString: 0.00
+		displayFolder: Finanzas
+		lineageTag: 53068122-778a-55c1-8775-785929ef9487
+
+	measure 'Capital Circulante' = VAR f = MAX(Indicadores[Fecha]) RETURN CALCULATE(SUM(Indicadores[CapitalCirculante]), Indicadores[Fecha] = f)
+		formatString: \$#,0
+		displayFolder: Finanzas
+		lineageTag: e3e5b37a-9f8c-5ff2-b48b-bf23ae7a1437
+
+	measure 'Flujo Operativo' = SUM(FlujoCaja[FlujoOperativo])
+		formatString: \$#,0
+		displayFolder: Finanzas
+		lineageTag: d68f86ca-d19f-5c2f-b2f2-5691cf61c511
+
+	measure 'Flujo de Caja Libre' = SUM(FlujoCaja[FlujoCajaLibre])
+		formatString: \$#,0
+		displayFolder: Finanzas
+		lineageTag: c518a8e5-2d54-5245-8c41-4f87e65469a4
+
+	measure 'Flujo Neto' = SUM(FlujoCaja[FlujoNeto])
+		formatString: \$#,0
+		displayFolder: Finanzas
+		lineageTag: fff1276f-7c2f-57b9-9cb9-504c15a587ce
+
+	measure 'Saldo CxC' = SUM(CuentasPorCobrar[SaldoPendiente])
+		formatString: \$#,0
+		displayFolder: Cuentas por Cobrar y Pagar
+		lineageTag: b514ce2d-1106-57d1-a141-1203cc844348
+
+	measure 'Saldo Vencido CxC' = CALCULATE(SUM(CuentasPorCobrar[SaldoPendiente]), CuentasPorCobrar[Estado] = "Vencida")
+		formatString: \$#,0
+		displayFolder: Cuentas por Cobrar y Pagar
+		lineageTag: e1f13f90-e1ea-5e41-9b90-3861bf37b2b7
+
+	measure 'Facturas en Gestión' = CALCULATE(COUNTROWS(CuentasPorCobrar), CuentasPorCobrar[GestionCobranza] = "En gestión de cobranza")
+		formatString: #,0
+		displayFolder: Cuentas por Cobrar y Pagar
+		lineageTag: 09c6ada1-da34-5600-a962-3b12cf91329f
+
+	measure 'Saldo CxP' = SUM(CuentasPorPagar[SaldoPendiente])
+		formatString: \$#,0
+		displayFolder: Cuentas por Cobrar y Pagar
+		lineageTag: 229c4621-988a-5c47-8199-361732309538
+
+	measure 'Días Pago Proveedores' = AVERAGE(CuentasPorPagar[DiasPagoReal])
+		formatString: 0.0
+		displayFolder: Cuentas por Cobrar y Pagar
+		lineageTag: 37ad05ae-5e01-57e8-bbf2-26903875116e
+
+	measure 'Compras Netas' = SUM(Compras[MontoNeto])
+		formatString: \$#,0
+		displayFolder: Inventario
+		lineageTag: 8b9b4c6c-4f56-50b3-aff1-3570bbe5558d
+
+	measure 'Kg Producidos' = SUM(ProduccionDiaria[KgProducidos])
+		formatString: #,0
+		displayFolder: Producción
+		lineageTag: 0c824de5-2c9e-5e39-8c55-a221d0080f2e
+
+	measure 'Kg Materia Prima' = SUM(ProduccionDiaria[KgMateriaPrima])
+		formatString: #,0
+		displayFolder: Producción
+		lineageTag: 6a32647c-71e6-5fcf-be29-ac4c5c8fda1a
+
+	measure 'Rendimiento %' = DIVIDE([Kg Producidos], [Kg Materia Prima])
+		formatString: 0.0%
+		displayFolder: Producción
+		lineageTag: e0e70216-02ca-5e48-8146-ca13c2856a99
+
+	measure 'Kg Merma' = SUM(MermasProceso[KgMerma])
+		formatString: #,0
+		displayFolder: Producción
+		lineageTag: e8dc07b0-6d66-5ff3-9fa6-b8fd49f50798
+
+	measure 'Merma %' = DIVIDE(SUM(ProduccionDiaria[KgMerma]), [Kg Materia Prima])
+		formatString: 0.0%
+		displayFolder: Producción
+		lineageTag: 4f103315-5361-5f2d-be60-25c0ee7927a3
+
+	measure 'Cumplimiento Plan %' = DIVIDE(SUM(ProduccionDiaria[UnidadesProducidas]), SUM(ProduccionDiaria[UnidadesPlanificadas]))
+		formatString: 0.0%
+		displayFolder: Producción
+		lineageTag: 1c7369a2-103d-5023-98b8-7ad6dd6c9f95
+
+	measure 'Horas Hombre' = SUM(ProduccionLinea[HorasHombre])
+		formatString: #,0
+		displayFolder: Producción
+		lineageTag: 005d732a-1ebc-5463-9902-de7c129d9064
+
+	measure 'Kg por Hora Hombre' = DIVIDE([Kg Producidos], [Horas Hombre])
+		formatString: 0.00
+		displayFolder: Producción
+		lineageTag: 60df1494-31b5-549c-abfb-8ed079ab219e
+
+	measure 'Valor Inventario' = VAR f = MAX(StockMensual[FechaCierre]) RETURN CALCULATE(SUM(StockMensual[ValorInventario]), StockMensual[FechaCierre] = f)
+		formatString: \$#,0
+		displayFolder: Inventario
+		lineageTag: 3ccfad71-cb47-5ad6-9bec-7f9013f4609d
+
+	measure 'Insumos en Stock Crítico' = VAR f = MAX(StockMensual[FechaCierre]) RETURN CALCULATE(COUNTROWS(StockMensual), StockMensual[FechaCierre] = f, StockMensual[Alerta] = "Crítico") + 0
+		formatString: #,0
+		displayFolder: Inventario
+		lineageTag: 882a368d-51d0-5764-b85d-8f7b87dd1c82
+
+	measure 'Alertas Stock Crítico' = CALCULATE(COUNTROWS(StockMensual), StockMensual[Alerta] = "Crítico") + 0
+		formatString: #,0
+		displayFolder: Inventario
+		lineageTag: 71d0fa63-551f-55a7-b708-cef2bcf05827
+
+	measure 'Dotación' = DISTINCTCOUNT(Marcaciones[EmpleadoID])
+		formatString: #,0
+		displayFolder: Personas
+		lineageTag: 5c702aee-f009-590a-9697-95f77d20c51c
+
+	measure 'Registros Asistencia' = COUNTROWS(Marcaciones)
+		formatString: #,0
+		displayFolder: Personas
+		lineageTag: ebe2f524-52df-5f01-861f-26a0ec22c59f
+
+	measure 'Tasa Ausentismo' = DIVIDE(CALCULATE(COUNTROWS(Marcaciones), Marcaciones[Estado] IN {"Ausente", "Licencia médica"}), CALCULATE(COUNTROWS(Marcaciones), Marcaciones[Estado] <> "Vacaciones"))
+		formatString: 0.0%
+		displayFolder: Personas
+		lineageTag: 54a28908-cdde-58ee-ab99-6b013b45cc9f
+
+	measure 'Puntualidad %' = 1 - DIVIDE(CALCULATE(COUNTROWS(Marcaciones), Marcaciones[MinutosAtraso] > 5), CALCULATE(COUNTROWS(Marcaciones), Marcaciones[Estado] = "Presente"))
+		formatString: 0.0%
+		displayFolder: Personas
+		lineageTag: 2a708c4f-d74f-5d16-a974-fb24bf1242ed
+
+	measure 'Horas Extra' = SUM(Marcaciones[HorasExtra])
+		formatString: #,0
+		displayFolder: Personas
+		lineageTag: 769a7513-a685-5f98-a61a-238726934de1
+
+	measure 'Días de Licencia' = CALCULATE(COUNTROWS(Marcaciones), Marcaciones[Estado] = "Licencia médica")
+		formatString: #,0
+		displayFolder: Personas
+		lineageTag: 8acbe170-7f7e-52ec-976b-176a6b6efed4
+
+	measure 'Reclamos' = COUNTROWS(Reclamos)
+		formatString: #,0
+		displayFolder: Calidad
+		lineageTag: b377b623-caed-5425-ac3b-78e7101cfdf7
+
+	measure 'Días Resolución Promedio' = AVERAGE(Reclamos[DiasResolucion])
+		formatString: 0.0
+		displayFolder: Calidad
+		lineageTag: bff41510-86cc-51c2-84dc-25819a0fb08c
+
+	measure 'Registro Completo %' = DIVIDE(CALCULATE(COUNTROWS(Reclamos), Reclamos[RegistroCompleto] = "Sí"), [Reclamos])
+		formatString: 0.0%
+		displayFolder: Calidad
+		lineageTag: 7ab4d59b-2dc0-5b0f-a1a8-7ac9b5a6cbd0
+
+	measure 'Reclamos Abiertos' = CALCULATE(COUNTROWS(Reclamos), Reclamos[Estado] = "En proceso") + 0
+		formatString: #,0
+		displayFolder: Calidad
+		lineageTag: d9f8d606-d870-58cc-ba46-ba109e443bf9
+
+	measure 'Equipos TI' = COUNTROWS(InventarioEquipos)
+		formatString: #,0
+		displayFolder: Activos TI
+		lineageTag: 56e82026-832c-5372-8802-b2d741adc176
+
+	measure 'Equipos Obsoletos' = CALCULATE(COUNTROWS(InventarioEquipos), InventarioEquipos[NivelObsolescencia] = "Obsoleto") + 0
+		formatString: #,0
+		displayFolder: Activos TI
+		lineageTag: 914d4a42-bc22-5bb9-bdf8-e443a3b46ebd
+
+	measure 'Antigüedad Promedio (años)' = AVERAGE(InventarioEquipos[AntiguedadAnios])
+		formatString: 0.0
+		displayFolder: Activos TI
+		lineageTag: c0fbc4b7-1dd9-5be0-be83-92755fd77b67
+
+	column Dummy
+		dataType: string
+		isHidden
+		lineageTag: ab942b09-a4bf-58a8-af3f-6109f29cade4
+		summarizeBy: none
+		sourceColumn: Dummy
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Medidas = m
+		mode: import
+		source =
+				let
+				    Fuente = #table(type table [Dummy = text], {})
+				in
+				    Fuente
+
+	annotation PBI_ResultType = Table

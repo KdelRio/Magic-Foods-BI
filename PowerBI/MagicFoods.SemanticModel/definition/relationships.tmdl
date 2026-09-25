@@ -1,0 +1,123 @@
+relationship 2e8ae00d-cc8c-5b00-ae0c-f603dc71f6a3
+	fromColumn: DetallePedidos.SKU
+	toColumn: Productos.SKU
+
+relationship 1c94390b-cc2a-5154-be39-067e3856fe00
+	fromColumn: DetallePedidos.ClienteID
+	toColumn: Clientes.ClienteID
+
+relationship 6891c10e-d373-5c85-9bc2-9e2cf04e04ba
+	fromColumn: DetallePedidos.VendedorID
+	toColumn: Vendedores.VendedorID
+
+relationship 7de1a035-3963-5a08-af57-43e760fa2fb8
+	fromColumn: DetallePedidos.FechaPedido
+	toColumn: Calendario.Fecha
+
+relationship 569eab57-8622-506b-b49e-d8cd0f6dbd22
+	fromColumn: Pedidos.FechaPedido
+	toColumn: Calendario.Fecha
+
+relationship a9a2ed63-a369-5bb1-933b-0b285dc86d44
+	fromColumn: Metas.Fecha
+	toColumn: Calendario.Fecha
+
+relationship a541c6de-bbfe-52a2-a4c0-7a879d26def3
+	fromColumn: Metas.VendedorID
+	toColumn: Vendedores.VendedorID
+
+relationship ba18ad4a-dfdb-51d8-b567-92d3afa4e1a0
+	fromColumn: EstadoResultados.Fecha
+	toColumn: Calendario.Fecha
+
+relationship 882fd1f1-fbef-5a59-b2b6-56388380f7f0
+	fromColumn: Balance.Fecha
+	toColumn: Calendario.Fecha
+
+relationship 604b8c4c-31c7-5e1d-8133-83e62d8439e3
+	fromColumn: FlujoCaja.Fecha
+	toColumn: Calendario.Fecha
+
+relationship d2f21ad0-8325-5267-8ba0-b2498bda648b
+	fromColumn: Indicadores.Fecha
+	toColumn: Calendario.Fecha
+
+relationship e328bd73-0de2-52d3-9b7f-7531540c546f
+	fromColumn: CuentasPorCobrar.FechaEmision
+	toColumn: Calendario.Fecha
+
+relationship 7517abf2-8156-52d5-921b-065afc6e6e5b
+	fromColumn: CuentasPorCobrar.ClienteID
+	toColumn: Clientes.ClienteID
+
+relationship a512ddd4-5629-5443-b42a-9288e2845f9f
+	fromColumn: CuentasPorPagar.FechaEmision
+	toColumn: Calendario.Fecha
+
+relationship 7a7a0bd3-52f1-532f-8b21-d3a077ea8b3f
+	fromColumn: CuentasPorPagar.ProveedorID
+	toColumn: Proveedores.ProveedorID
+
+relationship c6b9ca14-79d7-5b07-84ef-4dfabbc8f92b
+	fromColumn: Compras.FechaOC
+	toColumn: Calendario.Fecha
+
+relationship ad785591-1416-5fff-bdea-6828bd4e8000
+	fromColumn: Compras.ProveedorID
+	toColumn: Proveedores.ProveedorID
+
+relationship ba4bcfbd-c252-598f-a2f4-924008910226
+	fromColumn: Compras.InsumoID
+	toColumn: Insumos.InsumoID
+
+relationship afb2c32c-a5c7-5f4d-8b47-405787b82dcf
+	fromColumn: StockMensual.FechaCierre
+	toColumn: Calendario.Fecha
+
+relationship 0b888b62-443b-5346-85e6-f7d9095df4d8
+	fromColumn: ProduccionDiaria.Fecha
+	toColumn: Calendario.Fecha
+
+relationship b72d1777-bdf9-5d3a-951b-3e85da42a5f6
+	fromColumn: ProduccionDiaria.SKU
+	toColumn: Productos.SKU
+
+relationship c20339e3-eeaa-5d30-910b-8018aca65228
+	fromColumn: ProduccionDiaria.LineaID
+	toColumn: LineasProduccion.LineaID
+
+relationship 7bf52e33-36b3-5df8-a6e9-9e290864d7fb
+	fromColumn: ProduccionLinea.Fecha
+	toColumn: Calendario.Fecha
+
+relationship 0c0ac874-1a0c-577b-a3d7-a8f3be725be0
+	fromColumn: ProduccionLinea.LineaID
+	toColumn: LineasProduccion.LineaID
+
+relationship c78f3cb2-7c72-50cf-bb10-bb945f587fa8
+	fromColumn: MermasProceso.Fecha
+	toColumn: Calendario.Fecha
+
+relationship a013774b-95b4-52d8-8a98-91a1672b9bfb
+	fromColumn: MermasProceso.LineaID
+	toColumn: LineasProduccion.LineaID
+
+relationship bfd25b62-3ab9-52a0-bfc9-bd64485ebf96
+	fromColumn: Reclamos.FechaReclamo
+	toColumn: Calendario.Fecha
+
+relationship a31b7c45-fe11-5ed3-861f-fac44b6772ad
+	fromColumn: Reclamos.SKU
+	toColumn: Productos.SKU
+
+relationship e161f85e-f06a-54ed-ae2f-1aca46e3a23d
+	fromColumn: Reclamos.ClienteID
+	toColumn: Clientes.ClienteID
+
+relationship fb1e4012-0d6f-5652-88eb-ea7cce7d94b5
+	fromColumn: Marcaciones.Fecha
+	toColumn: Calendario.Fecha
+
+relationship 54798e2c-e480-5349-8164-8e96878c3a5e
+	fromColumn: Marcaciones.EmpleadoID
+	toColumn: Empleados.EmpleadoID

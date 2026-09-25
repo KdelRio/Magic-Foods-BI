@@ -1,0 +1,125 @@
+table StockMensual
+	lineageTag: 3f82309f-11f6-5c77-ae1e-2a2a89c5fcad
+
+	column Periodo
+		dataType: string
+		lineageTag: 7968272e-694d-58e0-a8a9-0c8d88ecb6f3
+		summarizeBy: none
+		sourceColumn: Periodo
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaCierre
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 457b1a9d-1475-5bbf-8eb3-b0089d4704f4
+		summarizeBy: none
+		sourceColumn: FechaCierre
+
+		annotation SummarizationSetBy = Automatic
+
+	column TipoItem
+		dataType: string
+		lineageTag: f0d8a7ed-3abc-551e-9382-2be70ea546c5
+		summarizeBy: none
+		sourceColumn: TipoItem
+
+		annotation SummarizationSetBy = Automatic
+
+	column Codigo
+		dataType: string
+		lineageTag: e0afe334-d537-51cb-895a-acdcc8b8a79b
+		summarizeBy: none
+		sourceColumn: Codigo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Descripcion
+		dataType: string
+		lineageTag: d2f64d88-2e60-5eb1-a24c-144e6c0172fa
+		summarizeBy: none
+		sourceColumn: Descripcion
+
+		annotation SummarizationSetBy = Automatic
+
+	column Categoria
+		dataType: string
+		lineageTag: 571bbbd9-aeb3-537a-b87e-6b9979373242
+		summarizeBy: none
+		sourceColumn: Categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unidad
+		dataType: string
+		lineageTag: 9cdad98a-2729-5f9c-9cb7-6db66cf3354b
+		summarizeBy: none
+		sourceColumn: Unidad
+
+		annotation SummarizationSetBy = Automatic
+
+	column StockCierre
+		dataType: double
+		formatString: #,0.##
+		lineageTag: a83a6054-0e59-5818-bfb8-4fae13507a65
+		summarizeBy: sum
+		sourceColumn: StockCierre
+
+		annotation SummarizationSetBy = Automatic
+
+	column StockCritico
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 92d079b1-b6fd-5920-9b2d-b8cec8f9faf9
+		summarizeBy: sum
+		sourceColumn: StockCritico
+
+		annotation SummarizationSetBy = Automatic
+
+	column StockMaximo
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: aec85861-609c-5248-8964-65970dd9c978
+		summarizeBy: sum
+		sourceColumn: StockMaximo
+
+		annotation SummarizationSetBy = Automatic
+
+	column CostoPromedio
+		dataType: double
+		formatString: \$#,0
+		lineageTag: 954bf0c5-5007-5682-9718-ac09b61c7ef6
+		summarizeBy: sum
+		sourceColumn: CostoPromedio
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValorInventario
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 4d4965e4-fc34-5c9d-95d4-88fa9fc55c39
+		summarizeBy: sum
+		sourceColumn: ValorInventario
+
+		annotation SummarizationSetBy = Automatic
+
+	column Alerta
+		dataType: string
+		lineageTag: b210bdc5-331b-5c42-a59a-4c0c4c971125
+		summarizeBy: none
+		sourceColumn: Alerta
+
+		annotation SummarizationSetBy = Automatic
+
+	partition StockMensual = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "03_Inventario_Abastecimiento.xlsx"), null, true),
+				    Datos = Origen{[Item="tStockMensual",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"FechaCierre", "StockCierre", "StockCritico", "StockMaximo", "CostoPromedio", "ValorInventario"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"Periodo", type text}, {"FechaCierre", type date}, {"TipoItem", type text}, {"Codigo", type text}, {"Descripcion", type text}, {"Categoria", type text}, {"Unidad", type text}, {"StockCierre", type number}, {"StockCritico", Int64.Type}, {"StockMaximo", Int64.Type}, {"CostoPromedio", type number}, {"ValorInventario", Int64.Type}, {"Alerta", type text}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

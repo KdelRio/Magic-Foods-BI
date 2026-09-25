@@ -1,0 +1,80 @@
+table Empleados
+	lineageTag: 547cef0e-b6b0-5b7e-a293-4b390f53af41
+
+	column EmpleadoID
+		dataType: string
+		lineageTag: b970e4dc-fcd7-5f79-9c86-549192ab19bc
+		summarizeBy: none
+		sourceColumn: EmpleadoID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nombre
+		dataType: string
+		lineageTag: 2bf48ffb-098f-50ac-a46e-111279806b7c
+		summarizeBy: none
+		sourceColumn: Nombre
+
+		annotation SummarizationSetBy = Automatic
+
+	column Area
+		dataType: string
+		lineageTag: cf06c026-3e66-507a-a287-f2c988c007b7
+		summarizeBy: none
+		sourceColumn: Area
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cargo
+		dataType: string
+		lineageTag: ff5a352c-ffe2-5433-965e-0d53b4f07279
+		summarizeBy: none
+		sourceColumn: Cargo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Turno
+		dataType: string
+		lineageTag: 1af0fb94-3de9-51dd-81d8-54a34fd632a5
+		summarizeBy: none
+		sourceColumn: Turno
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaIngreso
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: f068c16c-72ed-568c-a2e5-64d59ee3f796
+		summarizeBy: none
+		sourceColumn: FechaIngreso
+
+		annotation SummarizationSetBy = Automatic
+
+	column TipoContrato
+		dataType: string
+		lineageTag: 939cc5dd-e8e5-5ab2-9bb0-5de123bf303f
+		summarizeBy: none
+		sourceColumn: TipoContrato
+
+		annotation SummarizationSetBy = Automatic
+
+	column Genero
+		dataType: string
+		lineageTag: 3889e530-b255-53a6-916c-083d35bdbcc0
+		summarizeBy: none
+		sourceColumn: Genero
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Empleados = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "00_Maestros.xlsx"), null, true),
+				    Datos = Origen{[Item="tEmpleados",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"FechaIngreso"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"EmpleadoID", type text}, {"Nombre", type text}, {"Area", type text}, {"Cargo", type text}, {"Turno", type text}, {"FechaIngreso", type date}, {"TipoContrato", type text}, {"Genero", type text}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

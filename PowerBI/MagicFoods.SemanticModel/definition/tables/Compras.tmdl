@@ -1,0 +1,160 @@
+table Compras
+	lineageTag: a25c86c8-fbfc-5c9c-b8b0-4a75224077da
+
+	column OrdenCompra
+		dataType: string
+		lineageTag: e2b563b6-444f-5823-9563-002cb414ce5d
+		summarizeBy: none
+		sourceColumn: OrdenCompra
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaOC
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 553cab79-fede-5baa-83f2-dc0496dfbea0
+		summarizeBy: none
+		sourceColumn: FechaOC
+
+		annotation SummarizationSetBy = Automatic
+
+	column Anio
+		dataType: int64
+		formatString: 0
+		lineageTag: 88469896-51ec-50b1-accf-4d1855f101e0
+		summarizeBy: none
+		sourceColumn: Anio
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mes
+		dataType: int64
+		formatString: 0
+		lineageTag: b7be5ca4-3584-5d18-a0cb-1f3fb85465b0
+		summarizeBy: none
+		sourceColumn: Mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProveedorID
+		dataType: string
+		lineageTag: 7f969e9b-41ee-5740-abc5-74940a2b93f4
+		summarizeBy: none
+		sourceColumn: ProveedorID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Proveedor
+		dataType: string
+		lineageTag: 3cbc982b-581a-5cf4-8b19-95f46901fde5
+		summarizeBy: none
+		sourceColumn: Proveedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column InsumoID
+		dataType: string
+		lineageTag: cea42e88-a0be-5a4f-ab25-55d44cb6f280
+		summarizeBy: none
+		sourceColumn: InsumoID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Insumo
+		dataType: string
+		lineageTag: 1b3625a5-3c48-56fa-b7a6-34da9a148271
+		summarizeBy: none
+		sourceColumn: Insumo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Categoria
+		dataType: string
+		lineageTag: ddfa272e-fbac-55db-8cf0-ea4f48c8a9c6
+		summarizeBy: none
+		sourceColumn: Categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column Unidad
+		dataType: string
+		lineageTag: 4822675f-c340-55f6-940e-16451bfe2c48
+		summarizeBy: none
+		sourceColumn: Unidad
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cantidad
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 0e9ae648-e8bb-5cd4-aa27-73c5ef537e73
+		summarizeBy: sum
+		sourceColumn: Cantidad
+
+		annotation SummarizationSetBy = Automatic
+
+	column PrecioUnitario
+		dataType: double
+		formatString: \$#,0
+		lineageTag: b15379b9-e3bd-5e49-bb32-600f30a1d879
+		summarizeBy: sum
+		sourceColumn: PrecioUnitario
+
+		annotation SummarizationSetBy = Automatic
+
+	column MontoNeto
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: cd37a146-05ed-5f7e-9ed8-7cb82d686e0d
+		summarizeBy: sum
+		sourceColumn: MontoNeto
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaComprometida
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 54bc8ad3-e3c1-559a-9caa-af15f944ab64
+		summarizeBy: none
+		sourceColumn: FechaComprometida
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaRecepcion
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 8bea9f00-fce8-58da-8667-181ecb0cdc50
+		summarizeBy: none
+		sourceColumn: FechaRecepcion
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiasAtraso
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: be8e4038-f24b-54e2-8516-25bbff86a051
+		summarizeBy: sum
+		sourceColumn: DiasAtraso
+
+		annotation SummarizationSetBy = Automatic
+
+	column NroFacturaProv
+		dataType: string
+		lineageTag: 6b52e333-1d13-5f17-8143-bf3dca59aae9
+		summarizeBy: none
+		sourceColumn: NroFacturaProv
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Compras = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "03_Inventario_Abastecimiento.xlsx"), null, true),
+				    Datos = Origen{[Item="tCompras",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"FechaOC", "Anio", "Mes", "Cantidad", "PrecioUnitario", "MontoNeto", "FechaComprometida", "FechaRecepcion", "DiasAtraso"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"OrdenCompra", type text}, {"FechaOC", type date}, {"Anio", Int64.Type}, {"Mes", Int64.Type}, {"ProveedorID", type text}, {"Proveedor", type text}, {"InsumoID", type text}, {"Insumo", type text}, {"Categoria", type text}, {"Unidad", type text}, {"Cantidad", Int64.Type}, {"PrecioUnitario", type number}, {"MontoNeto", Int64.Type}, {"FechaComprometida", type date}, {"FechaRecepcion", type date}, {"DiasAtraso", Int64.Type}, {"NroFacturaProv", type text}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

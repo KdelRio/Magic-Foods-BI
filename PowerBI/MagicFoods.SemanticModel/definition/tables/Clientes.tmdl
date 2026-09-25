@@ -1,0 +1,107 @@
+table Clientes
+	lineageTag: 0596f5fa-92ce-5402-b842-83e9a2ff92db
+
+	column ClienteID
+		dataType: string
+		lineageTag: 3255cf69-5d14-50b8-b1b6-f766dd7bf091
+		summarizeBy: none
+		sourceColumn: ClienteID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cliente
+		dataType: string
+		lineageTag: 47818133-b950-5b73-9656-f772b43efc02
+		summarizeBy: none
+		sourceColumn: Cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		lineageTag: f2b73f63-dcae-5987-9f61-9d900b7efdea
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendedorID
+		dataType: string
+		lineageTag: cea465e9-c166-5960-95cb-ce181e66c30c
+		summarizeBy: none
+		sourceColumn: VendedorID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comuna
+		dataType: string
+		lineageTag: ba056548-fc6f-5945-b958-aaf117f329f2
+		summarizeBy: none
+		sourceColumn: Comuna
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: ce489674-96ec-5c69-8d2f-8511dc193eec
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Macrozona
+		dataType: string
+		lineageTag: ce16c0bd-363a-533b-9da2-c86ea4cb2930
+		summarizeBy: none
+		sourceColumn: Macrozona
+
+		annotation SummarizationSetBy = Automatic
+
+	column Latitud
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 76f74420-aa72-5249-bba2-4713aaa073e8
+		summarizeBy: none
+		sourceColumn: Latitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column Longitud
+		dataType: double
+		formatString: #,0.##
+		lineageTag: cef7fa07-f499-5d85-a2f4-dd548f0edd68
+		summarizeBy: none
+		sourceColumn: Longitud
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlazoPagoDias
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 7c481ef4-b456-5fa1-90ca-a4fa6ff6f03e
+		summarizeBy: sum
+		sourceColumn: PlazoPagoDias
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaAlta
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 71213e74-ef54-554b-b01f-6dbac256576b
+		summarizeBy: none
+		sourceColumn: FechaAlta
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Clientes = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "00_Maestros.xlsx"), null, true),
+				    Datos = Origen{[Item="tClientes",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"Latitud", "Longitud", "PlazoPagoDias", "FechaAlta"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"ClienteID", type text}, {"Cliente", type text}, {"Canal", type text}, {"VendedorID", type text}, {"Comuna", type text}, {"Region", type text}, {"Macrozona", type text}, {"Latitud", type number}, {"Longitud", type number}, {"PlazoPagoDias", Int64.Type}, {"FechaAlta", type date}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

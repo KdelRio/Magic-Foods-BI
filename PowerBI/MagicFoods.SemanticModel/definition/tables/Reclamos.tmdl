@@ -1,0 +1,187 @@
+table Reclamos
+	lineageTag: 932a280e-bcb2-5b9e-b6fc-305e45648501
+
+	column ReclamoID
+		dataType: string
+		lineageTag: f4a259a1-a155-5aa6-b6eb-1ab48e1ff227
+		summarizeBy: none
+		sourceColumn: ReclamoID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaReclamo
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: fd17d2c3-6d6f-5359-8f6d-af53c62de60a
+		summarizeBy: none
+		sourceColumn: FechaReclamo
+
+		annotation SummarizationSetBy = Automatic
+
+	column ClienteID
+		dataType: string
+		lineageTag: 39fa33a2-5bef-5de0-9e2f-04b4dacfd003
+		summarizeBy: none
+		sourceColumn: ClienteID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cliente
+		dataType: string
+		lineageTag: ab215eb5-6729-539e-89bd-38ef2bea5f45
+		summarizeBy: none
+		sourceColumn: Cliente
+
+		annotation SummarizationSetBy = Automatic
+
+	column Canal
+		dataType: string
+		lineageTag: 3bf053ec-678c-518b-91c7-e2188ffc01e1
+		summarizeBy: none
+		sourceColumn: Canal
+
+		annotation SummarizationSetBy = Automatic
+
+	column PedidoID
+		dataType: string
+		lineageTag: 39600382-e255-5d8b-bc43-c55c89e6b540
+		summarizeBy: none
+		sourceColumn: PedidoID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SKU
+		dataType: string
+		lineageTag: c9aabb0b-3d95-59ea-8351-036478935943
+		summarizeBy: none
+		sourceColumn: SKU
+
+		annotation SummarizationSetBy = Automatic
+
+	column Producto
+		dataType: string
+		lineageTag: b6b36530-58a1-5f47-951a-c7f96e13286b
+		summarizeBy: none
+		sourceColumn: Producto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Lote
+		dataType: string
+		lineageTag: be9d7607-8db4-5c9c-8f1c-4c599c2be7b4
+		summarizeBy: none
+		sourceColumn: Lote
+
+		annotation SummarizationSetBy = Automatic
+
+	column TipoReclamo
+		dataType: string
+		lineageTag: 3c5d3530-0c4a-52af-b4fa-34d79d1ca4a6
+		summarizeBy: none
+		sourceColumn: TipoReclamo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gravedad
+		dataType: string
+		lineageTag: 6e7c238b-c1d6-566e-bd41-887e7bafc4f4
+		summarizeBy: none
+		sourceColumn: Gravedad
+
+		annotation SummarizationSetBy = Automatic
+
+	column CanalIngreso
+		dataType: string
+		lineageTag: 2bcc35f9-eead-5c36-be5c-4f9b57c1fdc3
+		summarizeBy: none
+		sourceColumn: CanalIngreso
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrigenRegistro
+		dataType: string
+		lineageTag: d70e3cca-9a59-5e4d-818c-324e623f2b2c
+		summarizeBy: none
+		sourceColumn: OrigenRegistro
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegistroCompleto
+		dataType: string
+		lineageTag: a2cd4622-8e8f-5531-8bb5-703080b9128b
+		summarizeBy: none
+		sourceColumn: RegistroCompleto
+
+		annotation SummarizationSetBy = Automatic
+
+	column CausaRaiz
+		dataType: string
+		lineageTag: 5d2d356e-ccd6-53d1-b874-0092a0c47943
+		summarizeBy: none
+		sourceColumn: CausaRaiz
+
+		annotation SummarizationSetBy = Automatic
+
+	column AccionCorrectiva
+		dataType: string
+		lineageTag: 29c5ece1-eb0b-5a20-8db6-616e542c82a5
+		summarizeBy: none
+		sourceColumn: AccionCorrectiva
+
+		annotation SummarizationSetBy = Automatic
+
+	column AreaResponsable
+		dataType: string
+		lineageTag: bed4c254-1380-5d5d-92d9-4a60f0180f70
+		summarizeBy: none
+		sourceColumn: AreaResponsable
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaAccion
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: bbfaa15c-720b-5cbc-969d-0d4d593d8b35
+		summarizeBy: none
+		sourceColumn: FechaAccion
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaCierre
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: 26a4eeb8-4d16-5b1a-afa6-acf01618f047
+		summarizeBy: none
+		sourceColumn: FechaCierre
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estado
+		dataType: string
+		lineageTag: 7555811d-df61-588c-a6ce-952491c42301
+		summarizeBy: none
+		sourceColumn: Estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiasResolucion
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 18c2d819-320d-5a81-a560-50d465ee7b40
+		summarizeBy: sum
+		sourceColumn: DiasResolucion
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Reclamos = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "05_Calidad.xlsx"), null, true),
+				    Datos = Origen{[Item="tReclamos",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"FechaReclamo", "FechaAccion", "FechaCierre", "DiasResolucion"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"ReclamoID", type text}, {"FechaReclamo", type date}, {"ClienteID", type text}, {"Cliente", type text}, {"Canal", type text}, {"PedidoID", type text}, {"SKU", type text}, {"Producto", type text}, {"Lote", type text}, {"TipoReclamo", type text}, {"Gravedad", type text}, {"CanalIngreso", type text}, {"OrigenRegistro", type text}, {"RegistroCompleto", type text}, {"CausaRaiz", type text}, {"AccionCorrectiva", type text}, {"AreaResponsable", type text}, {"FechaAccion", type date}, {"FechaCierre", type date}, {"Estado", type text}, {"DiasResolucion", Int64.Type}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

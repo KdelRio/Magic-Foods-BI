@@ -1,0 +1,184 @@
+table InventarioEquipos
+	lineageTag: 962555b6-0aab-5a89-acfc-fdc3328f5836
+
+	column ActivoID
+		dataType: string
+		lineageTag: 71a05111-817d-5fce-b582-b58c6c9fd346
+		summarizeBy: none
+		sourceColumn: ActivoID
+
+		annotation SummarizationSetBy = Automatic
+
+	column TipoEquipo
+		dataType: string
+		lineageTag: 064bdff9-277c-5918-a30d-679e57e9345c
+		summarizeBy: none
+		sourceColumn: TipoEquipo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Marca
+		dataType: string
+		lineageTag: a0a879f8-f631-5745-900a-5c8c056ffaee
+		summarizeBy: none
+		sourceColumn: Marca
+
+		annotation SummarizationSetBy = Automatic
+
+	column Modelo
+		dataType: string
+		lineageTag: de346ac6-18c8-535a-81c3-f097d1ef3564
+		summarizeBy: none
+		sourceColumn: Modelo
+
+		annotation SummarizationSetBy = Automatic
+
+	column NroSerie
+		dataType: string
+		lineageTag: 2b45fccf-4a93-559d-8cac-32fcdf27f16c
+		summarizeBy: none
+		sourceColumn: NroSerie
+
+		annotation SummarizationSetBy = Automatic
+
+	column Area
+		dataType: string
+		lineageTag: a934fecb-cf73-50fd-884a-8083c548672a
+		summarizeBy: none
+		sourceColumn: Area
+
+		annotation SummarizationSetBy = Automatic
+
+	column UsuarioAsignado
+		dataType: string
+		lineageTag: d88792a8-6704-5b66-8720-aaf02799d864
+		summarizeBy: none
+		sourceColumn: UsuarioAsignado
+
+		annotation SummarizationSetBy = Automatic
+
+	column FechaAdquisicion
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: b7d9ec22-b548-56c2-bd31-76968a661afb
+		summarizeBy: none
+		sourceColumn: FechaAdquisicion
+
+		annotation SummarizationSetBy = Automatic
+
+	column CostoAdquisicion
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 41a063e8-f838-58ca-ac21-63e3cfb08470
+		summarizeBy: sum
+		sourceColumn: CostoAdquisicion
+
+		annotation SummarizationSetBy = Automatic
+
+	column SistemaOperativo
+		dataType: string
+		lineageTag: 171f6f20-12d9-5145-8ee3-0ce23c80a37e
+		summarizeBy: none
+		sourceColumn: SistemaOperativo
+
+		annotation SummarizationSetBy = Automatic
+
+	column RAM_GB
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: ea43a565-dee8-5358-9f12-a113e7b1cd6a
+		summarizeBy: sum
+		sourceColumn: RAM_GB
+
+		annotation SummarizationSetBy = Automatic
+
+	column Almacenamiento
+		dataType: string
+		lineageTag: 19c27b07-712c-5059-b265-6c231567914b
+		summarizeBy: none
+		sourceColumn: Almacenamiento
+
+		annotation SummarizationSetBy = Automatic
+
+	column Estado
+		dataType: string
+		lineageTag: 6f9df9d1-08ff-5769-b83b-69ec8faefa62
+		summarizeBy: none
+		sourceColumn: Estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column UltimaMantencion
+		dataType: dateTime
+		formatString: dd-MM-yyyy
+		lineageTag: d1d50f2f-6874-5b40-9f31-3938b36ac147
+		summarizeBy: none
+		sourceColumn: UltimaMantencion
+
+		annotation SummarizationSetBy = Automatic
+
+	column AntiguedadAnios
+		dataType: double
+		formatString: #,0.##
+		lineageTag: d53ada7c-bb94-56cb-b092-301d31070169
+		summarizeBy: sum
+		sourceColumn: AntiguedadAnios
+
+		annotation SummarizationSetBy = Automatic
+
+	column VidaUtilAnios
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: be4da6de-ebdc-5ed6-a67a-0d6c00d60479
+		summarizeBy: sum
+		sourceColumn: VidaUtilAnios
+
+		annotation SummarizationSetBy = Automatic
+
+	column PctVidaConsumida
+		dataType: double
+		formatString: #,0.##
+		lineageTag: 5c242783-c02c-599d-9531-5b48e495b8c4
+		summarizeBy: sum
+		sourceColumn: PctVidaConsumida
+
+		annotation SummarizationSetBy = Automatic
+
+	column NivelObsolescencia
+		dataType: string
+		lineageTag: 56d58981-8fa4-5c88-8454-c40411c98cbe
+		summarizeBy: none
+		sourceColumn: NivelObsolescencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnioRenovacion
+		dataType: int64
+		formatString: 0
+		lineageTag: ee18f18d-8748-5a5b-9bbe-521eda41c6b6
+		summarizeBy: none
+		sourceColumn: AnioRenovacion
+
+		annotation SummarizationSetBy = Automatic
+
+	column ValorLibroEstimado
+		dataType: int64
+		formatString: \$#,0
+		lineageTag: 6455a7cb-f94c-5fd6-8714-ff9547943a77
+		summarizeBy: sum
+		sourceColumn: ValorLibroEstimado
+
+		annotation SummarizationSetBy = Automatic
+
+	partition InventarioEquipos = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "07_Activos_TI.xlsx"), null, true),
+				    Datos = Origen{[Item="tInventarioEquipos",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"FechaAdquisicion", "CostoAdquisicion", "RAM_GB", "UltimaMantencion", "AntiguedadAnios", "VidaUtilAnios", "PctVidaConsumida", "AnioRenovacion", "ValorLibroEstimado"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"ActivoID", type text}, {"TipoEquipo", type text}, {"Marca", type text}, {"Modelo", type text}, {"NroSerie", type text}, {"Area", type text}, {"UsuarioAsignado", type text}, {"FechaAdquisicion", type date}, {"CostoAdquisicion", Int64.Type}, {"SistemaOperativo", type text}, {"RAM_GB", Int64.Type}, {"Almacenamiento", type text}, {"Estado", type text}, {"UltimaMantencion", type date}, {"AntiguedadAnios", type number}, {"VidaUtilAnios", Int64.Type}, {"PctVidaConsumida", type number}, {"NivelObsolescencia", type text}, {"AnioRenovacion", Int64.Type}, {"ValorLibroEstimado", Int64.Type}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table

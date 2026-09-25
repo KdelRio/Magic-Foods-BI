@@ -1,0 +1,65 @@
+table Proveedores
+	lineageTag: fd1a67fe-1753-5edf-b1d5-9cf3ec808735
+
+	column ProveedorID
+		dataType: string
+		lineageTag: c8d4f04e-3dbc-5e74-8837-447276a7fcbb
+		summarizeBy: none
+		sourceColumn: ProveedorID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Proveedor
+		dataType: string
+		lineageTag: 6888d7d3-dfde-59fb-bd15-8f222682f718
+		summarizeBy: none
+		sourceColumn: Proveedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comuna
+		dataType: string
+		lineageTag: f794314e-5c45-5a64-a194-049ff8652815
+		summarizeBy: none
+		sourceColumn: Comuna
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 0324d31a-b8c4-5a9d-bd04-c8295a30fd54
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlazoPagoAcordado
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: 7fca6bc4-c67b-5548-88fc-5f978fcd89ce
+		summarizeBy: sum
+		sourceColumn: PlazoPagoAcordado
+
+		annotation SummarizationSetBy = Automatic
+
+	column LeadTimeDias
+		dataType: int64
+		formatString: #,0.##
+		lineageTag: fd21565e-a05c-59d0-9dcf-47fb9e48d92b
+		summarizeBy: sum
+		sourceColumn: LeadTimeDias
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Proveedores = m
+		mode: import
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents(RutaDatos & "00_Maestros.xlsx"), null, true),
+				    Datos = Origen{[Item="tProveedores",Kind="Table"]}[Data],
+				    SinVacios = Table.ReplaceValue(Datos, "", null, Replacer.ReplaceValue, {"PlazoPagoAcordado", "LeadTimeDias"}),
+				    Tipos = Table.TransformColumnTypes(SinVacios, {{"ProveedorID", type text}, {"Proveedor", type text}, {"Comuna", type text}, {"Region", type text}, {"PlazoPagoAcordado", Int64.Type}, {"LeadTimeDias", Int64.Type}})
+				in
+				    Tipos
+
+	annotation PBI_ResultType = Table
